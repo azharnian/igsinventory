@@ -1,0 +1,28 @@
+:root {
+  --graygray: #EEEEEE;
+  --bluegray: #548CA8;
+  --mildgray: #476072;
+  --blackgray: #334257;
+
+  --height-app : 200vh;
+  --height-information-header : 30px;
+  --height-main-header : 80px;
+}
+
+* {
+  margin : 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.app-wrapper {
+  height: var(--height-app);
+  width: 100%;
+  box-sizing: border-box;
+  background-color: yellowgreen;
+  display: flex;
+  flex-direction: column;
+}
