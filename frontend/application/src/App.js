@@ -1,6 +1,8 @@
 import React from 'react';
 import Header from './components/Header/Header'
 import MainPage from './components/ContentPage/MainPage/MainPage'
+import SignUpPage from './components/Forms/SignUpPage/SignUpPage';
+import LoginPage from './components/Forms/LoginPage/LoginPage';
 
 class App extends React.Component {
 
@@ -8,7 +10,9 @@ class App extends React.Component {
       return (
         <div className='app-wrapper'>
           <Header />
-          <MainPage />
+          {/* <MainPage /> */}
+          {/* <SignUpPage /> */}
+          < LoginPage/>
         </div>
       )
     }
