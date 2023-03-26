@@ -6,13 +6,20 @@ import LoginPage from './components/Forms/LoginPage/LoginPage';
 
 class App extends React.Component {
 
+    constructor(props){
+      super(props);
+      this.state = {
+        currentPage : "login"
+      };
+    }
+
     render = () => {
       return (
         <div className='app-wrapper'>
           <Header />
-          {/* <MainPage /> */}
-          {/* <SignUpPage /> */}
-          < LoginPage/>
+          { this.state.currentPage === "" ? (<MainPage />) : ""}
+          { this.state.currentPage === "register" ? (<SignUpPage />) : "" }
+          { this.state.currentPage === "login" ? (<LoginPage/>) : "" }
         </div>
       )
     }

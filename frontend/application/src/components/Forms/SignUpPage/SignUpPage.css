@@ -1,46 +1,77 @@
 
 
-.page--sign--up {
+.page--signup {
     position: relative;
-    top : var(--height-main-header);
+    top : calc(var(--height-main-header) + var(--height-information-header));
     width: 100%;
-    height: calc(100vh - var(--height-main-header));
+    min-height: calc(100vh - var(--height-main-header) - var(--height-information-header));
     background-color: gainsboro;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: space-evenly;
 }
 
-.main--box--sign--up {
+.main--box--signup {
     width: 400px;
-    height: 600px;
+    height: auto;
+    padding: 20px;
+    max-height: 900px;
+    border-radius: 10px;
     background-color: white;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: flex-start;
     align-items: center;
     flex-direction: column;
 }
 
-.form--sign--up {
+h1.title--page--signup {
+    /* margin-top: 20px; */
+}
+
+.form--signup {
     width: 80%;
     height: auto;
+    box-sizing: border-box;
     display: grid;
     row-gap: 10px;
     margin-top: 50px;
 }
 
-label.label--form--sign--up {
-    font-size: 14pt;
+.form--group--signup {
+    width: 100%;
+    height: auto;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+}
+
+.form--checkbox--signup {
+    flex-direction: row;
+    align-items: center;
+}
+
+label.label--form--signup {
+    font-size: 12pt;
+    font-weight: bold;
     margin-top: 3px;
 }
 
-input.input--form-sign--up {
-    font-size: 18pt;
+label.checkbox--signup {
+    margin-left: 10px;
+    font-size: 10pt;
+}
+
+input.input--form-signup {
+    font-size: 12pt;
+    letter-spacing: .75px;
+    margin-top: 10px;
     border: none;
     border-bottom: 1px black solid;
 }
 
-input.submit--form-sign--up {
+input.submit--form-signup {
     /* border: none; */
     width: 100px;
     border-radius: 5px;
@@ -54,13 +85,18 @@ input.submit--form-sign--up {
     justify-self: center;
 }
 
-.login--text--anchor--sign--up {
+.login--text--anchor--signup {
     font-weight: bold;
 }
 
 textarea:focus, input:focus {
     outline: none;
+    border-bottom: 1px var(--bluegray) solid;
 }
 
-
+.error {
+    color: red;
+    font-style: italic;
+    font-size: 10pt;
+}
 
