@@ -2,6 +2,7 @@
   --graygray: #EEEEEE;
   --bluegray: #548CA8;
   --mildgray: #476072;
+  --mildgray50 : #47607280 ;
   --blackgray: #334257;
 
   --height-app : 100vh;
@@ -19,10 +20,10 @@ body {
 }
 
 .app-wrapper {
-  height: var(--height-app);
+  min-height: var(--height-app);
   width: 100%;
   box-sizing: border-box;
-  background-color: yellowgreen;
+  /* background-color: yellowgreen; */
   display: flex;
   flex-direction: column;
 }

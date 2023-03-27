@@ -2,6 +2,7 @@ import React from "react";
 import {useFormik} from "formik";
 import * as Yup from "yup";
 
+import LoadingPage from "../../ContentPage/LoadingPage/LoadingPage";
 import "./SignUpPage.css";
 
 function SignUpPage(){
@@ -148,11 +149,11 @@ function SignUpPage(){
                             value="Register"
                             disabled={formik.isSubmitting} />
                 </form>
-                
-            </div>
-            <small>
-                    Already has an account? <span className="login--text--anchor--signup">Login here.</span>
+                <small>
+                    Already had an account? <span className="login--text--anchor--signup">Login here.</span>
             </small>
+            </div>
+            {formik.isSubmitting ? (<LoadingPage />) : ""}
         </section>
     )
 }

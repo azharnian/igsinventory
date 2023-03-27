@@ -1,0 +1,28 @@
+
+.loading--page{
+    position: fixed;
+    z-index: 998;
+    top: calc(var(--height-main-header) + var(--height-information-header));
+    width: 100%;
+    height: calc(100vh - var(--height-main-header) - var(--height-information-header));
+    background-color: var(--mildgray50);
+    /* opacity: 0.5; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loading--page > img {
+    width: 300px;
+    animation: spinning 3s infinite alternate;
+}
+
+@keyframes spinning {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
