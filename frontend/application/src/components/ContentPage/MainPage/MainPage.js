@@ -1,6 +1,7 @@
 import React from 'react'
 import './MainPage.css'
 import Navigation from '../Navigation/Navigation'
+import BuildingEntryForm from '../../Forms/BuildingEntryForm/BuildingEntryForm'
 
 class MainPage extends React.Component {
 

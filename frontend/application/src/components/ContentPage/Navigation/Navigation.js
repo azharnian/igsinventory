@@ -1,5 +1,4 @@
 import React from 'react';
-import 'boxicons'
 import './Navigation.css';
 
 class ArrowItemList extends React.Component {
