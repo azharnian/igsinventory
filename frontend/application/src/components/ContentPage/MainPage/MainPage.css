@@ -6,3 +6,15 @@
     background-color: aquamarine;
     margin-top: 110px;
 }
+
+.container--content--main--page {
+    width: 80%;
+    height: calc(100vh - var(--height-information-header) - var(--height-main-header));
+    box-sizing: border-box;
+    background-color: pink;
+    position: relative;
+    left: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

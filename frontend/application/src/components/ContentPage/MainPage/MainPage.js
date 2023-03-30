@@ -9,6 +9,9 @@ class MainPage extends React.Component {
         return (
             <div className='container-main-page'>
                 <Navigation />
+                <div className="container--content--main--page">
+                    {/* <BuildingEntryForm /> */}
+                </div>
             </div>
         )
     }
