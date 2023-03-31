@@ -9,12 +9,13 @@
 
 .container--content--main--page {
     width: 80%;
-    height: calc(100vh - var(--height-information-header) - var(--height-main-header));
+    /* height: calc(100vh - var(--height-information-header) - var(--height-main-header)); */
     box-sizing: border-box;
     background-color: pink;
     position: relative;
     left: 20%;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: flex-start;
     align-items: center;
 }
