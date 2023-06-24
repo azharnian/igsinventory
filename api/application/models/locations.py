@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from application import db
-from application.models.users import User
+# from application.models.users import *
 
 class Building(db.Model):
     __tablename__ = "buildings"

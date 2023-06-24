@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from application import db
-from application.models.users import User
+# from application.models.users import User
 
 class Transfer(db.Model):
     __tablename__ = "transfers"
@@ -21,7 +21,6 @@ class Transfer(db.Model):
 class Update(db.Model):
     __tablename__ = "updates"
     
-
     id = db.Column(db.Integer, primary_key = True)
     item_id = db.Column(db.Integer, db.ForeignKey("items.id"), nullable = False)
     updated_by = db.Column(db.Integer, db.ForeignKey("users.id"), nullable = False)

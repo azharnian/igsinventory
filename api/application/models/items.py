@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from application import db
-from application.models.users import User
+# from application.models.users import User
 
 class Item_Type(db.Model):
     __tablename__ = "item_type"

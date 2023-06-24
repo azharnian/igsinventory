@@ -1,7 +1,0 @@
-
-#depedencies
-.env
-/env
-**/__pycache__/*
-**/migrations/*
-.DS_Store

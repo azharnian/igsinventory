@@ -2,13 +2,42 @@ from datetime import datetime
 from itsdangerous.url_safe import URLSafeTimedSerializer as Serializer
 
 from flask import current_app
+from flask_restful import fields
 from flask_login import UserMixin
 
 from application import db, login_manager
+from application.models.locations import *
+from application.models.activities import *
+from application.models.items import *
+from application.models.logs import *
 
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
+user_role_model_json = {
+        "id": fields.Integer(),
+        "role" : fields.String(),
+        "description" : fields.String(),
+        "is_active" : fields.Boolean(),
+        "date_created" : fields.DateTime(dt_format='rfc822'),
+        "date_updated" : fields.DateTime(dt_format='rfc822'),
+        "errors" : fields.String()
+    }
+
+user_role_list_model_json = {
+    "roles" : fields.List(fields.Nested(user_role_model_json))
+}
+
+class User_Role_Model:
+
+    def __init__(self, role, description, is_active, date_created, date_updated):
+        self.id = 0
+        self.role = role
+        self.description = description
+        self.is_active = is_active
+        self.date_created = date_created
+        self.date_update = date_updated
 
 class User_Role(db.Model):
     __tablename__ = "user_role"
@@ -24,6 +53,20 @@ class User_Role(db.Model):
 
     def __repr__(self):
         return f"User {self.id} role as {self.role} : {self.description}, active since {self.date_created}, last update on {self.date_updated}"
+    
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
+    def update(self, role, description):
+        self.role = role
+        self.description = description
+        self.date_updated = datetime.utcnow()
+        db.session.commit()
 
 
 class User(db.Model, UserMixin):
@@ -54,13 +97,13 @@ class User(db.Model, UserMixin):
 
     locations = db.relationship("Location", backref = "creator_locations", lazy = True)
 
-    type_items = db.relationship("Type Item", backref = "creator_type_items", lazy = True)
+    type_items = db.relationship("Item_Type", backref = "creator_item_types", lazy = True)
 
-    items = db.relationship("Items", backref = "creator_items", lazy = True)
+    items = db.relationship("Item", backref = "creator_items", lazy = True)
 
-    item_transfers = db.relationship("Transfer", backref = "transfered_by", lazy = True)
+    item_transfers = db.relationship("Transfer", backref = "transfered_executor", lazy = True)
     
-    item_updates = db.relationship("Update", backref = "updated_by", lazy = True)
+    item_updates = db.relationship("Update", backref = "updated_executor", lazy = True)
 
     logs = db.relationship("Log", foreign_keys = "Log.user_id", backref = "logs_user", lazy = True)
 
