@@ -24,16 +24,6 @@ user_role_model_json = {
         "date_updated" : fields.DateTime(dt_format='rfc822'),
     }
 
-class User_Role_Model:
-
-    def __init__(self, role, description, is_active, date_created, date_updated):
-        self.id = 0
-        self.role = role
-        self.description = description
-        self.is_active = is_active
-        self.date_created = date_created
-        self.date_update = date_updated
-
 class User_Role(db.Model):
     __tablename__ = "user_role"
 
