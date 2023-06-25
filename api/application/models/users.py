@@ -22,12 +22,7 @@ user_role_model_json = {
         "is_active" : fields.Boolean(),
         "date_created" : fields.DateTime(dt_format='rfc822'),
         "date_updated" : fields.DateTime(dt_format='rfc822'),
-        "errors" : fields.String()
     }
-
-user_role_list_model_json = {
-    "roles" : fields.List(fields.Nested(user_role_model_json))
-}
 
 class User_Role_Model:
 
