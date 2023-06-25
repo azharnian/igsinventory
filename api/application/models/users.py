@@ -2,7 +2,7 @@ from datetime import datetime
 from itsdangerous.url_safe import URLSafeTimedSerializer as Serializer
 
 from flask import current_app
-from flask_restful import fields
+from flask_restx import fields
 from flask_login import UserMixin
 
 from application import db, login_manager

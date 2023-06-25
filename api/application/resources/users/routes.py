@@ -2,7 +2,7 @@ from datetime import datetime
 from jsonschema import validate, ValidationError
 
 from flask import Blueprint, request
-from flask_restful import Resource, marshal_with, marshal
+from flask_restx import Resource, Namespace, marshal_with, marshal
 
 from application import api
 from application.models.users import User_Role, user_role_model_json
@@ -11,6 +11,12 @@ from application.utils.json_schema import user_role_schema
 users = Blueprint('users', __name__)
 
 
+user_roles_namespace = Namespace(
+    "User Roles",
+    description = ""
+)
+api.add_namespace(user_roles_namespace)
+@user_roles_namespace.route("/userroles")
 class UserRolesResource(Resource):
 
     @marshal_with(user_role_model_json)
@@ -38,7 +44,12 @@ class UserRolesResource(Resource):
         response = marshal(new_user_role, user_role_model_json)
         return response, 201
 
-
+user_role_namespace = Namespace(
+    "User Role",
+    description = ""
+)
+api.add_namespace(user_role_namespace)
+@user_role_namespace.route("/userrole/<int:id>")
 class UserRoleResource(Resource):
 
     @marshal_with(user_role_model_json)
@@ -83,4 +94,6 @@ class SignupResource(Resource):
 
 
 api.add_resource(UserRolesResource, "/userroles", methods=["GET", "POST"])
+# docs.register(UserRolesResource)
+
 api.add_resource(UserRoleResource, "/userrole/<int:id>", methods=["GET", "POST", "PUT", "DELETE"])
