@@ -2,6 +2,7 @@ from flask import Flask
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_restx import Api
+from flask_jwt_extended import JWTManager
 from flask_login import LoginManager
 from flask_mail import Mail
 
@@ -16,6 +17,8 @@ api = Api(doc = "/docs",
           title = "Inventory API",
           version = "",
           description = "An inventory api")
+
+jwt = JWTManager()
 mail = Mail()
 login_manager = LoginManager()
 
@@ -39,6 +42,7 @@ def create_app(config_class = DevConfig):
 
     db.init_app(app)
     api.init_app(app)
+    jwt.init_app(app)
     # api.namespaces.pop(0)
     migrate.init_app(app, db)
     mail.init_app(app)

@@ -30,15 +30,6 @@ user_role_model_json = {
         "date_updated" : fields.DateTime(dt_format="rfc822"),
     }
 
-"""
-class User_Role:
-    id : integer,
-    role : string,
-    description : string,
-    is_active : boolean,
-    date_created : datetime,
-    "date_updated" : datetime,
-"""
 
 class User_Role(db.Model, Base):
     __tablename__ = "user_role"
@@ -81,6 +72,11 @@ user_model_json = {
     "is_phone_verified" : fields.Boolean(),
     "last_login" : fields.DateTime(dt_format="rfc822"),
     "last_ip" : fields.String()
+}
+
+user_login_model_json = {
+    "username" : fields.String(),
+    "password" : fields.String()
 }
 
 class User(db.Model, Base, UserMixin):

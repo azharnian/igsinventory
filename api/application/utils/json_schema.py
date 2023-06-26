@@ -69,3 +69,20 @@ user_schema = {
         "role"
     ]
 }
+
+user_login_schema = {
+    "type" : "object",
+    "properties" : {
+        "username" : {
+            "type" : "string",
+            "minLength" : 3
+        },
+        "password" : {
+            "type" : "string",
+            "minLength" : 8
+        }
+    },
+    "required" : [
+        "username", "password"
+    ]
+}

@@ -3,24 +3,46 @@ from jsonschema import validate, ValidationError
 
 from flask import Blueprint, request
 from flask_restx import Resource, marshal_with, marshal
+from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required
+
+from werkzeug.security import check_password_hash
 
 from application import api
-from application.models.users import User_Role, user_role_model_json, User, user_model_json
-from application.utils.json_schema import user_role_schema, user_schema
+
+from application.models.users import User_Role, user_role_model_json, User, user_model_json, user_login_model_json
+
+from application.utils.json_schema import user_role_schema, user_schema, user_login_schema
 
 from application.utils.error_json import error_model_json
 
 users = Blueprint('users', __name__)
 
+user_role_model = api.model(
+    "User Role",
+    user_role_model_json
+)
+
+user_model = api.model(
+    "User",
+    user_model_json
+)
+
+login_model = api.model(
+    "Login",
+    user_login_model_json
+)
 
 class UserRolesResource(Resource):
 
     @marshal_with(user_role_model_json)
+    @jwt_required()
     def get(self):
         """Get all role users"""
         userroles = User_Role.query.all()
         return userroles, 200
     
+    @api.expect(user_role_model)
+    @jwt_required()
     def post(self):
         """Create a new user role"""
         data = request.get_json()
@@ -43,11 +65,14 @@ class UserRolesResource(Resource):
 class UserRoleResource(Resource):
 
     @marshal_with(user_role_model_json)
+    @jwt_required()
     def get(self, id):
         """Get a role user by id"""
         userrole = User_Role.query.get_or_404(id)
         return userrole, 200
     
+    @api.expect(user_role_model)
+    @jwt_required()
     def put(self, id):
         """Update a role user by id"""
         userrole_to_update = User_Role.query.get_or_404(id) 
@@ -56,7 +81,7 @@ class UserRoleResource(Resource):
         try:
             validate(data, user_role_schema)
         except ValidationError as e:
-            return {"errors" : e.message}, 400
+            return error_model_json(e), 400
         
         userrole_to_update.update(
             role = data.get("role"),
@@ -67,6 +92,8 @@ class UserRoleResource(Resource):
                 "userrole" : marshal(userrole_to_update, user_role_model_json)
             }, 200
 
+    @api.expect(user_role_model)
+    @jwt_required()
     def delete(self, id):
         """Delete a role user by id"""
         userrole_to_delete = User_Role.query.get_or_404(id)
@@ -80,7 +107,8 @@ class UserRoleResource(Resource):
 
 class UsersResource(Resource):
 
-    @marshal_with(user_model_json)
+    @marshal_with(user_model)
+    @jwt_required()
     def get(self):
         """Get all users"""
         users = User.query.all()
@@ -90,6 +118,7 @@ class UsersResource(Resource):
 
 class SignUpResource(Resource):
 
+    @api.expect(user_model)
     def post(self):
         """Add new user"""
         data = request.get_json()
@@ -120,6 +149,34 @@ class SignUpResource(Resource):
         return response, 500
 
 
+class LoginResource(Resource):
+
+    @api.expect(login_model)
+    def post(self):
+        data = request.get_json()
+
+        try:
+            validate(data, user_login_schema)
+        except ValidationError as e:
+            return error_model_json(e), 400
+        
+        user_to_login = User.query.filter_by(
+            username = data.get("username")
+            ).first()
+        
+        if user_to_login and check_password_hash(user_to_login.password, data.get("password")):
+            access_token = create_access_token(identity = user_to_login.username)
+            refresh_token = create_refresh_token(identity = user_to_login.username)
+            
+            response = {
+                "login" : True,
+                "access_token" : access_token,
+                "refresh_token" : refresh_token
+            }
+
+            return response, 200
+        return {"login" : False}, 401
+
 api.add_resource(UserRolesResource, 
                  "/userroles", 
                  methods = ["GET", "POST"])
@@ -134,4 +191,8 @@ api.add_resource(UsersResource,
 
 api.add_resource(SignUpResource,
                  "/signup",
+                 methods = ["POST"])
+
+api.add_resource(LoginResource,
+                 "/login",
                  methods = ["POST"])
