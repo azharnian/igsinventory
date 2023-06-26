@@ -1,4 +1,5 @@
 from datetime import datetime
+from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous.url_safe import URLSafeTimedSerializer as Serializer
 
 from flask import current_app, jsonify
@@ -18,6 +19,8 @@ from application.models.logs import *
 def load_user(user_id):
     return User.query.get(int(user_id))
 
+#user role model
+
 user_role_model_json = {
         "id": fields.Integer(),
         "role" : fields.String(),
@@ -26,6 +29,16 @@ user_role_model_json = {
         "date_created" : fields.DateTime(dt_format="rfc822"),
         "date_updated" : fields.DateTime(dt_format="rfc822"),
     }
+
+"""
+class User_Role:
+    id : integer,
+    role : string,
+    description : string,
+    is_active : boolean,
+    date_created : datetime,
+    "date_updated" : datetime,
+"""
 
 class User_Role(db.Model, Base):
     __tablename__ = "user_role"
@@ -118,18 +131,20 @@ class User(db.Model, Base, UserMixin):
     def save(self):
         try:
             self.full_name = f"{self.first_name} {self.last_name}"
+            self.password = generate_password_hash(self.password)
             db.session.add(self)
             db.session.commit()
         except SQLAlchemyError as e:
             response = {
                     "status" : "failed",
-                    "orig" : str(e.orig),
-                    "statement" : str(e.statement),
-                    "params" : str(e.params),
-                    "ismulti" : str(e.ismulti)
+                    "orig" : str(e.orig)#,
+                    # "statement" : str(e.statement),
+                    # "params" : str(e.params),
+                    # "ismulti" : str(e.ismulti)
             }
             return response
         else:
+            self.password = "hashed password already"
             return {"status" : "success"}
 
 

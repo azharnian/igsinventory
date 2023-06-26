@@ -2,7 +2,7 @@ from datetime import datetime
 from jsonschema import validate, ValidationError
 
 from flask import Blueprint, request
-from flask_restx import Resource, Namespace, marshal_with, marshal
+from flask_restx import Resource, marshal_with, marshal
 
 from application import api
 from application.models.users import User_Role, user_role_model_json, User, user_model_json
@@ -13,12 +13,6 @@ from application.utils.error_json import error_model_json
 users = Blueprint('users', __name__)
 
 
-user_roles_namespace = Namespace(
-    "userrolesapi",
-    description = ""
-)
-api.add_namespace(user_roles_namespace)
-@user_roles_namespace.route("/userroles")
 class UserRolesResource(Resource):
 
     @marshal_with(user_role_model_json)
@@ -46,12 +40,6 @@ class UserRolesResource(Resource):
         response = marshal(new_user_role, user_role_model_json)
         return response, 201
 
-user_role_namespace = Namespace(
-    "userroleapi",
-    description = ""
-)
-api.add_namespace(user_role_namespace)
-@user_role_namespace.route("/userrole/<int:id>")
 class UserRoleResource(Resource):
 
     @marshal_with(user_role_model_json)
@@ -90,12 +78,6 @@ class UserRoleResource(Resource):
         }, 200
 
 
-user_namespace = Namespace(
-    "userapi",
-    description = ""
-)
-api.add_namespace(user_namespace)
-@user_namespace.route("/users")
 class UsersResource(Resource):
 
     @marshal_with(user_model_json)
@@ -104,6 +86,10 @@ class UsersResource(Resource):
         users = User.query.all()
         return users
     
+    
+
+class SignUpResource(Resource):
+
     def post(self):
         """Add new user"""
         data = request.get_json()
@@ -127,9 +113,9 @@ class UsersResource(Resource):
 
         response = {
             "added" : new_user.save(),
-            "user" : marshal(new_user, user_model_json)
         }
         if response["added"]["status"] == "success":
+            response["user"] = marshal(new_user, user_model_json)
             return response, 201
         return response, 500
 
@@ -144,4 +130,8 @@ api.add_resource(UserRoleResource,
 
 api.add_resource(UsersResource, 
                  "/users",
-                  methods = ["GET", "POST"] )
+                  methods = ["GET"] )
+
+api.add_resource(SignUpResource,
+                 "/signup",
+                 methods = ["POST"])
