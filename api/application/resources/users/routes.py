@@ -5,14 +5,16 @@ from flask import Blueprint, request
 from flask_restx import Resource, Namespace, marshal_with, marshal
 
 from application import api
-from application.models.users import User_Role, user_role_model_json
-from application.utils.json_schema import user_role_schema
+from application.models.users import User_Role, user_role_model_json, User, user_model_json
+from application.utils.json_schema import user_role_schema, user_schema
+
+from application.utils.error_json import error_model_json
 
 users = Blueprint('users', __name__)
 
 
 user_roles_namespace = Namespace(
-    "User Roles",
+    "userrolesapi",
     description = ""
 )
 api.add_namespace(user_roles_namespace)
@@ -32,7 +34,7 @@ class UserRolesResource(Resource):
         try:
             validate(data, user_role_schema)
         except ValidationError as e:
-            return {"errors" : e.message}, 400
+            return error_model_json(e), 400
 
         new_user_role = User_Role(
             role = data.get("role"),
@@ -45,7 +47,7 @@ class UserRolesResource(Resource):
         return response, 201
 
 user_role_namespace = Namespace(
-    "User Role",
+    "userroleapi",
     description = ""
 )
 api.add_namespace(user_role_namespace)
@@ -88,12 +90,58 @@ class UserRoleResource(Resource):
         }, 200
 
 
-class SignupResource(Resource):
+user_namespace = Namespace(
+    "userapi",
+    description = ""
+)
+api.add_namespace(user_namespace)
+@user_namespace.route("/users")
+class UsersResource(Resource):
+
+    @marshal_with(user_model_json)
+    def get(self):
+        """Get all users"""
+        users = User.query.all()
+        return users
+    
     def post(self):
-        pass
+        """Add new user"""
+        data = request.get_json()
+
+        try:
+            validate(data, user_schema)
+        except ValidationError as e:
+            return error_model_json(e), 400
+        
+        new_user = User(
+            username = data.get("username"),
+            email = data.get("email"),
+            phone = data.get("phone"),
+            password = data.get("password"),
+            first_name = data.get("first_name"),
+            last_name = data.get("last_name"),
+            role = data.get("role")
+        )
+        if data.get("profile_picture"):
+            new_user.profile_picture = f"/profile_picture/{data.get('profile_picture')}"
+
+        response = {
+            "added" : new_user.save(),
+            "user" : marshal(new_user, user_model_json)
+        }
+        if response["added"]["status"] == "success":
+            return response, 201
+        return response, 500
 
 
-api.add_resource(UserRolesResource, "/userroles", methods=["GET", "POST"])
-# docs.register(UserRolesResource)
+api.add_resource(UserRolesResource, 
+                 "/userroles", 
+                 methods = ["GET", "POST"])
 
-api.add_resource(UserRoleResource, "/userrole/<int:id>", methods=["GET", "POST", "PUT", "DELETE"])
+api.add_resource(UserRoleResource, 
+                 "/userrole/<int:id>", 
+                 methods = ["GET", "POST", "PUT", "DELETE"])
+
+api.add_resource(UsersResource, 
+                 "/users",
+                  methods = ["GET", "POST"] )

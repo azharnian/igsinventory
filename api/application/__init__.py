@@ -14,7 +14,7 @@ migrate = Migrate()
 db = SQLAlchemy()
 api = Api(doc = "/docs",
           title = "Inventory API",
-          version = "1.2",
+          version = "",
           description = "An inventory api")
 mail = Mail()
 login_manager = LoginManager()
@@ -39,7 +39,7 @@ def create_app(config_class = DevConfig):
 
     db.init_app(app)
     api.init_app(app)
-    api.namespaces.pop(0)
+    # api.namespaces.pop(0)
     migrate.init_app(app, db)
     mail.init_app(app)
     login_manager.init_app(app)
