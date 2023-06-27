@@ -16,4 +16,7 @@ class ProdConfig(Config):
     pass
 
 class TestConfig(Config):
-    pass
+    SQLALCHEMY_DATABASE_URI = "sqlite:///"+os.path.join(BASE_DIR,config("DB_URI_TEST"))
+    DEBUG = True
+    TESTING = True
+    SQLALCHEMY_ECHO = False 

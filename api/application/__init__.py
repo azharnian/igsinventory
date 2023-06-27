@@ -24,7 +24,7 @@ login_manager = LoginManager()
 
 def create_app(config_class = DevConfig):
     app = Flask(__name__)
-    app.config.from_object(DevConfig)
+    app.config.from_object(config_class)
     
     from application.views.home import home
     from application.resources.activities.routes import activities
