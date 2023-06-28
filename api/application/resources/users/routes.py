@@ -3,7 +3,7 @@ from jsonschema import validate, ValidationError
 
 from flask import Blueprint, request
 from flask_restx import Resource, marshal_with, marshal
-from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required
+from flask_jwt_extended import create_access_token, create_refresh_token, jwt_required, get_jwt_identity
 
 from werkzeug.security import check_password_hash
 
@@ -176,6 +176,17 @@ class LoginResource(Resource):
 
             return response, 200
         return {"login" : False}, 401
+    
+
+class RefreshResource(Resource):
+
+    @jwt_required(refresh=True)
+    def post(self):
+
+        current_user = get_jwt_identity()
+        new_access_token = create_access_token(identity = current_user)
+
+        return {"access_token" : new_access_token} , 200
 
 api.add_resource(UserRolesResource, 
                  "/userroles", 
@@ -195,4 +206,8 @@ api.add_resource(SignUpResource,
 
 api.add_resource(LoginResource,
                  "/login",
+                 methods = ["POST"])
+
+api.add_resource(RefreshResource,
+                 "/refresh",
                  methods = ["POST"])

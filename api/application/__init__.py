@@ -3,7 +3,6 @@ from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_restx import Api
 from flask_jwt_extended import JWTManager
-from flask_login import LoginManager
 from flask_mail import Mail
 
 from dotenv import load_dotenv
@@ -20,7 +19,6 @@ api = Api(doc = "/docs",
 
 jwt = JWTManager()
 mail = Mail()
-login_manager = LoginManager()
 
 def create_app(config_class = DevConfig):
     app = Flask(__name__)
@@ -46,6 +44,5 @@ def create_app(config_class = DevConfig):
     # api.namespaces.pop(0)
     migrate.init_app(app, db)
     mail.init_app(app)
-    login_manager.init_app(app)
 
     return app

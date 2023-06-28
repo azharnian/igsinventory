@@ -4,20 +4,15 @@ from itsdangerous.url_safe import URLSafeTimedSerializer as Serializer
 
 from flask import current_app, jsonify
 from flask_restx import fields
-from flask_login import UserMixin
 
 from sqlalchemy.exc import SQLAlchemyError
 
-from application import db, login_manager
+from application import db
 from application.models.model import Base
 from application.models.locations import *
 from application.models.activities import *
 from application.models.items import *
 from application.models.logs import *
-
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(int(user_id))
 
 #user role model
 
@@ -79,7 +74,8 @@ user_login_model_json = {
     "password" : fields.String()
 }
 
-class User(db.Model, Base, UserMixin):
+
+class User(db.Model, Base):
     __tablename__ = "users"
 
     id = db.Column(db.Integer, primary_key = True)
