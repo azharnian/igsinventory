@@ -1,8 +1,9 @@
 
 .form-signin {
   min-width: 330px;
-  min-height: 100vh;
+  min-height: calc(100vh - 90px);
   padding: 1rem;
+  box-sizing: border-box;
 }
 
 form {
@@ -13,7 +14,7 @@ form {
   z-index: 2;
 }
 
-.form-signin input[type="email"] {
+.form-signin input[type="username"] {
   margin-bottom: -1px;
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;

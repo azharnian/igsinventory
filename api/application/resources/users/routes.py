@@ -135,7 +135,7 @@ class SignUpResource(Resource):
             password = data.get("password"),
             first_name = data.get("first_name"),
             last_name = data.get("last_name"),
-            role = data.get("role")
+            role = 2 #data.get("role")
         )
         if data.get("profile_picture"):
             new_user.profile_picture = f"/profile_picture/{data.get('profile_picture')}"

@@ -49,10 +49,10 @@ user_schema = {
             "minLength" : 1, 
             "maxLength" : 128
         },
-        "role" : {
-            "type" : "integer",
-            "minimal" : 1
-        },
+        # "role" : {
+        #     "type" : "integer",
+        #     "minimal" : 1
+        # },
         "profile_picture" : {
             "type" : "string",
             "minLength" : 8, 
@@ -65,8 +65,8 @@ user_schema = {
         "phone",
         "password",
         "first_name",
-        "last_name",
-        "role"
+        "last_name"#,
+        # "role"
     ]
 }
 
