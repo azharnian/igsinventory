@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
+import {Button, Modal} from "react-bootstrap";
 import {useFormik} from "formik";
 import * as Yup from "yup";
 
@@ -9,15 +11,11 @@ import "./Signup.css"
 
 export default function SignupPage(){
 
+    const navigate = useNavigate();
+
     const [state, setState] = useState({
-        firstName : "",
-        lastName : "",
-        username : "",
-        email : "",
-        phone : "",
-        password : "",
-        confirmPassword : "",
-        agreed : true
+        serverResponse : {},
+        showModal : false
     })
 
     // No longer used, already had formik
@@ -36,7 +34,16 @@ export default function SignupPage(){
     }
 
     const formik = useFormik({
-        initialValues : state,
+        initialValues : {
+            firstName : "",
+            lastName : "",
+            username : "",
+            email : "",
+            phone : "",
+            password : "",
+            confirmPassword : "",
+            agreed : true
+        },
 
         validationSchema : Yup.object({
             firstName : Yup.string().required("firstname is required").max(128),
@@ -77,10 +84,18 @@ export default function SignupPage(){
             fetch("/signup", requestOption)
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data);
+                    // console.log(data);
+                    setState({
+                        ...state,
+                        serverResponse : {
+                            status : data.added.status,
+                            orig : data.added.orig
+                        },
+                        showModal : true
+                    });
                 })
-                .catch(data => {
-                    console.log(data);
+                .catch(error => {
+                    console.error(error);
                 })
                 .finally( () => {
                     setSubmitting(false);
@@ -114,8 +129,7 @@ export default function SignupPage(){
                                         placeholder="" 
                                         value={formik.values.firstName}
                                         onChange={formik.handleChange}
-                                        onBlur={formik.handleBlur} 
-                                        autoFocus
+                                        onBlur={formik.handleBlur}
                                         />
 
                                     <small style={{color : "red"}}> 
@@ -261,6 +275,32 @@ export default function SignupPage(){
                 </div>
             </main>
             {formik.isSubmitting ? (<LoadingPage />) : ""}
+            {state.showModal ? (
+                <Modal centered show={state.showModal} onHide={() => setState({
+                    ...state,
+                    showModal : false
+                    })}>
+                    <Modal.Header className={`bg-${state.serverResponse.status === "failed" ? "danger" : "success"} text-white`} closeButton>
+                        <Modal.Title className="text-uppercase">{state.serverResponse.status}</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <p>{state.serverResponse.orig}</p>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        {state.serverResponse.orig ? 
+                        <Button variant="primary" onClick={() => setState({
+                                                                ...state,
+                                                                showModal : false
+                                                                })}>
+                        Close
+                        </Button> :
+                        <Button variant="primary" onClick={() => navigate(`/login`)}>
+                        Login
+                        </Button>
+                        }
+                    </Modal.Footer>
+                </Modal>
+            ) : ""}
         </div>
     );
 }

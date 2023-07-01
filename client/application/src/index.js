@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Page from './components/Pages/Page';
@@ -10,6 +10,17 @@ import Footer from './components/Pages/Footer';
 import 'bootstrap/dist/css/bootstrap.css';
 
 function App(){
+
+    const pingGoogle = () => {
+      fetch(`/ping/google`)
+          .then(response => (response.ok ? console.log("Internet Conected") : console.log("Internet Disconected")))
+          .catch(error => console.error("Error: ", error))
+    }
+
+    useEffect(() => {
+      // Check Internet Connection
+      // setInterval(pingGoogle, 1000);
+    }, [])
 
     return (
       <div>

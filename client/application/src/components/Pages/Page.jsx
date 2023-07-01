@@ -9,13 +9,33 @@ export default function Page() {
     })
 
     useEffect( () => {
-        fetch("/hello")
-            .then(response => response.json())
-            .then(data => setState({
-                ...state,
-                message : data.message
-            }))
-            .catch(data => console.log(data));
+        // fetch("/hello")
+        //     .then(response => response.json())
+        //     .then(data => setState({
+        //         ...state,
+        //         message : data.message
+        //     }))
+        //     .catch(data => console.log(data));
+
+            async function loadHello(){
+                try {
+                    const response = await fetch("/hello");
+                    const data = await response.json();
+                    return data;
+                } catch (e) {
+                    console.error("Error", e);
+                }
+                
+            }
+            (async () => {
+                try {
+                    const data = await loadHello();
+                    console.log(data.message)
+                } catch (e) {
+                    console.error(e);
+                }
+            })();
+
         }, [])
 
     return (
