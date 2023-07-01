@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 import Logo from "../../../images/logo.png"
 import 'bootstrap/dist/css/bootstrap.css';
@@ -6,7 +6,17 @@ import "./Login.css"
 import { Link } from "react-router-dom";
 
 
-export default function LoginPage(){
+export default function LoginPage(props){
+
+    const { title } = props;
+
+    const [state, setState] = useState({
+        title : `Login - ${title}`
+    });
+
+    useEffect(() => {
+        document.title = state.title;
+    }, []);
 
     return (
         <div>

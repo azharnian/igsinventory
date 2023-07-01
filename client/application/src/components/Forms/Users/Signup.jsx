@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import {Button, Modal} from "react-bootstrap";
@@ -9,14 +9,21 @@ import Logo from "../../../images/logo.png"
 import LoadingPage from "../../Misc/LoadingPage";
 import "./Signup.css"
 
-export default function SignupPage(){
+export default function SignupPage(props){
+
+    const { title } = props;
 
     const navigate = useNavigate();
 
     const [state, setState] = useState({
+        title : `Signup - ${title}`,
         serverResponse : {},
         showModal : false
-    })
+    });
+
+    useEffect(() => {
+        document.title = state.title;
+    }, []);
 
     // No longer used, already had formik
     function handleInputChange(e) {
