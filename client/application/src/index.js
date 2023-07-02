@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+
 import Page from './components/Pages/Page';
 import LoginPage from './components/Forms/Users/Login';
 import SignupPage from './components/Forms/Users/Signup';
-
 import Footer from './components/Pages/Footer';
+import Dashboard from './components/Pages/Dashboard';
+import UserTypeForm from './components/Forms/Users/UserTypeForm';
 
 import 'bootstrap/dist/css/bootstrap.css';
 
@@ -25,20 +27,22 @@ function App(){
       document.title = state.title;
       // Check Internet Connection
       // setInterval(pingGoogle, 1000);
-    }, [])
+    }, [state.title])
 
     return (
       <div>
         <BrowserRouter>
             <Routes>
-              <Route path="/" element={<Page title={state.title}/>} />
-              <Route path="/home" element={<Page title={state.title}/>} />
+              <Route element={<Page title={state.title}/>}>
+                <Route path="/" element={<Dashboard />} />
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/user-type" element={<UserTypeForm />} />
+              </Route>
               <Route path="/login" element={<LoginPage title={state.title}/>} />
               <Route path="/signup" element={<SignupPage title={state.title}/>} />
             </Routes>
             <Footer />
-        </BrowserRouter>
-      
+        </BrowserRouter>   
       </div>
       
     )

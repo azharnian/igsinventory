@@ -1,0 +1,20 @@
+.front--toast {
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+}
+
+/* CONTENT */
+
+.main--content {
+    min-height: calc(100vh - 120px);
+}
+
+@media (max-width: 768px) {
+    .mobile--toast {
+        top: 10px;
+        right: 10px;
+        width: 250px;
+        height: 100px;
+    }
+}

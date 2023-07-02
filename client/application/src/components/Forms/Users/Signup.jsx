@@ -7,7 +7,7 @@ import * as Yup from "yup";
 
 import Logo from "../../../images/logo.png"
 import LoadingPage from "../../Misc/LoadingPage";
-import "./Signup.css"
+// import "./Signup.css"
 
 export default function SignupPage(props){
 
@@ -23,7 +23,7 @@ export default function SignupPage(props){
 
     useEffect(() => {
         document.title = state.title;
-    }, []);
+    }, [state.title]);
 
     // No longer used, already had formik
     function handleInputChange(e) {
