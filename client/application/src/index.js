@@ -35,13 +35,11 @@ function App(){
             <Routes>
               <Route element={<Page title={state.title}/>}>
                 <Route path="/" element={<Dashboard />} />
-                <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/user-type" element={<UserTypeForm />} />
               </Route>
               <Route path="/login" element={<LoginPage title={state.title}/>} />
               <Route path="/signup" element={<SignupPage title={state.title}/>} />
             </Routes>
-            <Footer />
         </BrowserRouter>   
       </div>
       

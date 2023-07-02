@@ -1,11 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, Outlet } from "react-router-dom";
 
-import "./Page.css"
+import "./Page.css";
 import 'bootstrap/dist/css/bootstrap.css';
+import "boxicons";
 
 
 export default function Content(){
+
+    const [state, setState] = useState({
+        clickedLocation : false,
+        clickedItems : false,
+        clickedActivities : false,
+        clickedUsers : false
+    })
+
+    const handleClicked = (event) => {
+        const name = event.target.getAttribute("name");
+        setState({
+            ...state,
+            [name] : !state[name]
+        })
+    }
 
     return (
         <div className="container-fluid">
@@ -15,13 +31,20 @@ export default function Content(){
                         <div className="d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto">
                             <ul className="nav flex-column">
                                 <li className="nav-item">
-                                    <Link className="nav-link d-flex align-items-center gap-2 active" aria-current="page" to={`/dashboard`}>
+                                    <Link className="nav-link d-flex align-items-center gap-2 active" aria-current="page" to={`/`}>
                                         Dashboard
                                     </Link>
                                 </li>
                                 <li className="nav-item">
-                                    <span className="nav-link d-flex align-items-center gap-2 border-bottom">Location</span>
-                                    <ul className="nav flex-column ms-4">
+                                    <span 
+                                        className="nav-link d-flex align-items-center justify-content-between gap-2 border-bottom"        name="clickedLocation"
+                                        onClick={handleClicked}
+                                    >
+                                        Location
+                                        <box-icon type='solid' name='chevron-down'></box-icon>
+                                    </span>
+                                    
+                                    <ul className={`nav flex-column ms-4 ${state.clickedLocation ? "" : "d-none"}`}>
                                         <li>
                                             <Link className="nav-link d-flex align-items-center gap-2" aria-current="page" to={`/user-type`}>
                                                 Buildings
@@ -40,8 +63,14 @@ export default function Content(){
                                     </ul>
                                 </li>
                                 <li className="nav-item">
-                                    <span className="nav-link d-flex align-items-center gap-2 border-bottom">Items</span>
-                                    <ul className="nav flex-column ms-4">
+                                    <span className="nav-link d-flex align-items-center gap-2 border-bottom justify-content-between"
+                                    name="clickedItems"
+                                    onClick={handleClicked}
+                                    >
+                                        Items
+                                        <box-icon type='solid' name='chevron-down'></box-icon>
+                                    </span>
+                                    <ul className={`nav flex-column ms-4 ${state.clickedItems ? "" : "d-none"}`}>
                                         <li>
                                             <Link className="nav-link d-flex align-items-center gap-2" aria-current="page" to={`/`}>
                                                 Search Item
@@ -55,8 +84,14 @@ export default function Content(){
                                     </ul>
                                 </li>
                                 <li className="nav-item">
-                                    <span className="nav-link d-flex align-items-center gap-2 border-bottom">Activities</span>
-                                    <ul className="nav flex-column ms-4">
+                                    <span className="nav-link d-flex align-items-center gap-2 border-bottom justify-content-between"
+                                    name="clickedActivities"
+                                    onClick={handleClicked}
+                                    >
+                                        Activities
+                                        <box-icon type='solid' name='chevron-down'></box-icon>
+                                    </span>
+                                    <ul className={`nav flex-column ms-4 ${state.clickedActivities ? "" : "d-none"}`}>
                                         <li>
                                             <Link className="nav-link d-flex align-items-center gap-2" aria-current="page" to={`/user-type`}>
                                                 Transfer Item
@@ -70,8 +105,14 @@ export default function Content(){
                                     </ul>
                                 </li>
                                 <li className="nav-item">
-                                    <span className="nav-link d-flex align-items-center gap-2 border-bottom">Users</span>
-                                    <ul className="nav flex-column ms-4">
+                                    <span className="nav-link d-flex align-items-center gap-2 border-bottom justify-content-between"
+                                    name="clickedUsers"
+                                    onClick={handleClicked}
+                                    >
+                                        Users
+                                        <box-icon type='solid' name='chevron-down'></box-icon>
+                                    </span>
+                                    <ul className={`nav flex-column ms-4 ${state.clickedUsers ? "" : "d-none"}`}>
                                         <li>
                                             <Link className="nav-link d-flex align-items-center gap-2" aria-current="page" to={`/user-type`}>
                                                 Search User

@@ -108,6 +108,7 @@ export default function Page() {
             </Toast>
             <Header />
             <Content />
+            <Footer />
         </div>
     )
 }
