@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect, useContext } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Alert } from "react-bootstrap";
 
 import {useFormik} from "formik";
 import * as Yup from "yup";
 
-import { login } from "../../../auth.js";
 import Logo from "../../../images/logo.png"
 import LoadingPage from "../../Misc/LoadingPage"
+import AuthContext from "../../../context/AuthContext";
+import { login } from "../../../utils/Auth";
 
 import 'bootstrap/dist/css/bootstrap.css';
 import "./Login.css"
@@ -18,8 +18,12 @@ import "./Login.css"
 export default function LoginPage(props){
 
     const { title } = props;
-
+    
     const navigate = useNavigate();
+    const location = useLocation();
+
+    const {user, setUser, authTokens, setAuthTokens} = useContext(AuthContext);
+    const from = location.state?.from?.pathname || "/";
 
     const [state, setState] = useState({
         title : `Login - ${title}`,
@@ -29,7 +33,7 @@ export default function LoginPage(props){
 
     useEffect(() => {
         document.title = state.title;
-    }, [state.title]);
+    }, []);
 
     const formik = useFormik({
         initialValues : {
@@ -72,8 +76,10 @@ export default function LoginPage(props){
                         }
                     });
                     if (data.login){
-                        login(data.access_token);
-                        navigate(`/`);
+                        setUser(data.login);
+                        setAuthTokens(data.access_token);
+                        login(authTokens);
+                        navigate("/")
                     } else {
                         setState({
                             ...state,
@@ -91,6 +97,7 @@ export default function LoginPage(props){
         }
     })
 
+    // console.log(user, authTokens);
     return (
         <div>
             <main className="d-flex justify-content-center align-items-center form-signin">
