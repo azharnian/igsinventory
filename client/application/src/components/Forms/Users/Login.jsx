@@ -4,11 +4,12 @@ import { Alert } from "react-bootstrap";
 
 import {useFormik} from "formik";
 import * as Yup from "yup";
+// import jwt_decode from "jwt-decode";
 
 import Logo from "../../../images/logo.png"
 import LoadingPage from "../../Misc/LoadingPage"
 import AuthContext from "../../../context/AuthContext";
-import { login } from "../../../utils/Auth";
+// import { login } from "../../../utils/Auth";
 
 import 'bootstrap/dist/css/bootstrap.css';
 import "./Login.css"
@@ -22,8 +23,7 @@ export default function LoginPage(props){
     const navigate = useNavigate();
     const location = useLocation();
 
-    const {user, setUser, authTokens, setAuthTokens} = useContext(AuthContext);
-    const from = location.state?.from?.pathname || "/";
+    let {statusLogin, setStatusLogin, setUser, setAuthAccessToken, setAuthRefreshToken} = useContext(AuthContext);
 
     const [state, setState] = useState({
         title : `Login - ${title}`,
@@ -32,6 +32,7 @@ export default function LoginPage(props){
     });
 
     useEffect(() => {
+        if (statusLogin) navigate("/");
         document.title = state.title;
     }, []);
 
@@ -68,18 +69,24 @@ export default function LoginPage(props){
             fetch("/login", requestOption)
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data);
-                    setState({
-                        ...state,
-                        serverResponse : {
-                            status : data.login
-                        }
-                    });
+                    // console.log(data);
+                    // setState({
+                    //     ...state,
+                    //     serverResponse : {
+                    //         status : data.login
+                    //     }
+                    // });
                     if (data.login){
-                        setUser(data.login);
-                        setAuthTokens(data.access_token);
-                        login(authTokens);
-                        navigate("/")
+                        setStatusLogin(data.login);
+                        localStorage.setItem("statusLogin", JSON.stringify(data.login));
+                        setUser(data.user);
+                        localStorage.setItem("user", JSON.stringify(data.user));
+                        setAuthAccessToken(data.access_token);
+                        localStorage.setItem("access_token", JSON.stringify(data.access_token));
+                        setAuthRefreshToken(data.refresh_token);
+                        localStorage.setItem("refresh_token", JSON.stringify(data.refresh_token));
+                        
+                        navigate("/");
                     } else {
                         setState({
                             ...state,
@@ -97,7 +104,6 @@ export default function LoginPage(props){
         }
     })
 
-    // console.log(user, authTokens);
     return (
         <div>
             <main className="d-flex justify-content-center align-items-center form-signin">

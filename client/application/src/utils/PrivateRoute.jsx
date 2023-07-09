@@ -5,10 +5,9 @@ import AuthContext from "../context/AuthContext";
 
 const PrivateRoute = () => {
 
-    // let logged = false;
-    // console.log("Private Route works!");
-    const {user, authTokens} = useContext(AuthContext);
-    if (user && authTokens)
+    let {statusLogin} = useContext(AuthContext);
+
+    if (statusLogin)
         return (
             <Page />
         )

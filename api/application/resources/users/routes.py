@@ -170,6 +170,7 @@ class LoginResource(Resource):
             
             response = {
                 "login" : True,
+                "user" : marshal(user_to_login, user_model_json),
                 "access_token" : access_token,
                 "refresh_token" : refresh_token
             }

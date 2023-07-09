@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import {Button, Modal} from "react-bootstrap";
@@ -7,13 +7,15 @@ import * as Yup from "yup";
 
 import Logo from "../../../images/logo.png"
 import LoadingPage from "../../Misc/LoadingPage";
-// import "./Signup.css"
+import AuthContext from "../../../context/AuthContext";
 
 export default function SignupPage(props){
 
     const { title } = props;
 
     const navigate = useNavigate();
+
+    let {statusLogin} = useContext(AuthContext);
 
     const [state, setState] = useState({
         title : `Signup - ${title}`,
@@ -22,8 +24,9 @@ export default function SignupPage(props){
     });
 
     useEffect(() => {
+        if (statusLogin) navigate("/");
         document.title = state.title;
-    }, [state.title]);
+    }, []);
 
     // No longer used, already had formik
     function handleInputChange(e) {
