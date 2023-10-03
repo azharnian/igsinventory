@@ -1,0 +1,27 @@
+
+.form-signin {
+    min-width: 330px;
+    min-height: calc(100vh - 90px);
+    padding: 1rem;
+    box-sizing: border-box;
+  }
+  
+form {
+    min-width: inherit;
+}
+
+.form-signin .form-floating:focus-within {
+z-index: 2;
+}
+
+.form-signin input[type="username"] {
+margin-bottom: -1px;
+border-bottom-right-radius: 0;
+border-bottom-left-radius: 0;
+}
+
+.form-signin input[type="password"] {
+margin-bottom: 10px;
+border-top-left-radius: 0;
+border-top-right-radius: 0;
+}

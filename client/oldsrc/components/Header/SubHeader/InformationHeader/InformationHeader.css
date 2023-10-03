@@ -1,6 +1,0 @@
-.information-header {
-    height: var(--height-information-header);
-    width: 100%;
-    box-sizing: border-box;
-    background-color: var(--graygray);
-}
