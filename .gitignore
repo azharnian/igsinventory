@@ -166,7 +166,7 @@ cython_debug/
 
 ### react ###
 .DS_*
-logs
+# logs
 **/*.backup.*
 **/*.back.*
 
