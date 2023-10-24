@@ -11,7 +11,7 @@ users = Blueprint('users', __name__)
 #SESSION
 @users.route('/login', methods=['GET', 'POST'])
 def login():
-    pass
+    return render_template('pages/users/login.html', title='Login')
 
 @users.route('/logout')
 @login_required
@@ -26,9 +26,9 @@ def register():
 
 #dasboard
 @users.route('/')
-@login_required
+# @login_required
 def index():
-    return render_template("index.html")
+    return render_template("index.html", title='Dashboard')
 
 @users.route('/profile')
 @login_required

@@ -11,7 +11,7 @@ class Item(db.Model):
     __tablename__ = "items"
 
     id = db.Column(db.Integer, primary_key = True)
-    code = db.Column(db.String(256), nullable = False, unique = True)
+    code = db.Column(db.String(256), nullable = False, unique = True, index = True)
     name = db.Column(db.String(256), nullable = False)
     length = db.Column(db.Float, default = 0)
     width = db.Column(db.Float, default = 0)

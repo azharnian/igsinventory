@@ -5,7 +5,7 @@ from application.models.users.users import *
 from application.models.items.items import *
 
 class Item_Type(db.Model):
-    __tablename__ = "item_type"
+    __tablename__ = "item_types"
 
     id = db.Column(db.Integer, primary_key = True)
     name_type = db.Column(db.String(256), nullable = False)

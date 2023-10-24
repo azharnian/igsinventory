@@ -9,5 +9,5 @@ class Event(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     create_date = db.Column(db.DateTime, default=datetime.utcnow())
     created_by = db.Column(db.Integer, db.ForeignKey("users.id"), default=0)
-    event_name = db.Column(db.String(256), uniqie=True, nullable=False)
+    event_name = db.Column(db.String(256), unique=True, nullable=False)
     note = db.Column(db.String(256))

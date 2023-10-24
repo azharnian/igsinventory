@@ -16,14 +16,14 @@ class User(db.Model):
     __tablename__ = "users"
 
     id = db.Column(db.Integer, primary_key = True)
-    username = db.Column(db.String(256), unique = True, nullable = False)
-    email = db.Column(db.String(256), unique = True, nullable = False)
+    username = db.Column(db.String(256), unique = True, nullable = False, index = True)
+    email = db.Column(db.String(256), unique = True, nullable = False, index = True)
     phone = db.Column(db.String(256), nullable = False)
     password = db.Column(db.String(256), nullable = False)
     first_name = db.Column(db.String(128), nullable = False)
     last_name = db.Column(db.String(128), nullable = False)
     full_name = db.Column(db.String(256), nullable = False)
-    role = db.Column(db.Integer, db.ForeignKey("user_role.id"), nullable = False)
+    role = db.Column(db.Integer, db.ForeignKey("roles.id"), nullable = False)
     is_active = db.Column(db.Boolean, default = True)
     date_created = db.Column(db.DateTime, default = datetime.utcnow())
     date_updated = db.Column(db.DateTime)

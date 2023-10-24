@@ -11,6 +11,6 @@ class Log(db.Model):
     timestamp = db.Column(db.DateTime, default=datetime.utcnow())
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     affected_user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
-    event_id = db.Column(db.Integer, db.ForeignKey("events.id", nullable=False))
-    component_id = db.Column(db.Integer, db.ForeignKey("components.id", nullable=False))
+    event_id = db.Column(db.Integer, db.ForeignKey("events.id"), nullable=False)
+    component_id = db.Column(db.Integer, db.ForeignKey("components.id"), nullable=False)
     ip_address = db.Column(db.String(256), nullable=False)
