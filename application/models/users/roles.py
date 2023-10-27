@@ -15,5 +15,15 @@ class Role(db.Model):
 
     users = db.relationship("User", backref="user_in_roles", lazy = True)
 
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'role': self.role,
+            'description': self.description,
+            'is_active': self.is_active,
+            'date_created': self.date_created.isoformat() if self.date_created else None,
+            'date_updated': self.date_updated.isoformat() if self.date_updated else None
+        }
+
     def __repr__(self):
         return f"User {self.id} role as {self.role} : {self.description}, active since {self.date_created}, last update on {self.date_updated}"
