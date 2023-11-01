@@ -19,7 +19,8 @@ def login():
         user = get_user_by_username(form.username.data)
         if user and user.password == form.password.data:
             login_user(user)
-            return redirect(url_for('users.index'))
+            next_url = request.args.get('next') or url_for('users.index')
+            return redirect(next_url)
         flash('Something wrong, please try again', 'danger')
     return render_template('pages/users/login.html', title='Login', form=form)
 

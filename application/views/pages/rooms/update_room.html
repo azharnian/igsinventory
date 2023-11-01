@@ -1,0 +1,68 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<h1>{{ title }}</h1>
+<hr>
+<form method="POST" enctype="multipart/form-data" class="form">
+    {{ form.hidden_tag() }}
+    <fieldset>
+        <legend>Add new room</legend>
+        <div class="form-group">
+            {{ form.note.label(class="control-label") }}
+            {{ form.note(class="form-control", size=30) }}
+            {% if form.note.errors %}
+                <ul class="errors">
+                    {% for error in form.note.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form.active.label(class="control-label") }}
+            {{ form.active(class="form-check-input") }}
+        </div>
+
+        <div class="form-group">
+            {{ form.room_code.label(class="control-label") }}
+            {{ form.room_code(class="form-control", size=30) }}
+            {% if form.room_code.errors %}
+                <ul class="errors">
+                    {% for error in form.room_code.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form.room_name.label(class="control-label") }}
+            {{ form.room_name(class="form-control", size=30) }}
+            {% if form.room_name.errors %}
+                <ul class="errors">
+                    {% for error in form.room_name.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form.floor_id.label(class="control-label") }}
+            {{ form.floor_id(class="form-control") }}
+            {% if form.floor_id.errors %}
+                <ul class="errors">
+                    {% for error in form.floor_id.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+
+    </fieldset>
+    <div class="form-group my-5">
+        {{ form.submit(class="btn btn-primary") }}
+    </div>
+</form>
+{% endblock content %}

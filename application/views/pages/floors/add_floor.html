@@ -4,7 +4,7 @@
 <form method="POST" enctype="multipart/form-data" class="form">
     {{ form.hidden_tag() }}
     <fieldset>
-        <legend>Add new location</legend>
+        <legend>Add new floor</legend>
         <div class="form-group">
             {{ form.name.label(class="control-label") }}
             {{ form.name(class="form-control", size=30) }}
@@ -16,36 +16,24 @@
                 </ul>
             {% endif %}
         </div>
-    
-        <div class="form-group">
-            {{ form.longitude.label(class="control-label") }}
-            {{ form.longitude(class="form-control") }}
-            {% if form.longitude.errors %}
-                <ul class="errors">
-                    {% for error in form.longitude.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        </div>
-    
-        <div class="form-group">
-            {{ form.latitude.label(class="control-label") }}
-            {{ form.latitude(class="form-control") }}
-            {% if form.latitude.errors %}
-                <ul class="errors">
-                    {% for error in form.latitude.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        </div>
-    
+
         <div class="form-group">
             {{ form.description.label(class="control-label") }}
             {{ form.description(class="form-control") }}
         </div>
-    
+
+        <div class="form-group">
+            {{ form.building_id.label(class="control-label") }}
+            {{ form.building_id(class="form-control") }}
+            {% if form.building_id.errors %}
+                <ul class="errors">
+                    {% for error in form.building_id.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+
         <div class="form-group my-5">
             {{ form.photo_location.label(class="control-label") }}
             {{ form.photo_location(class="form-control-file") }}
@@ -57,8 +45,6 @@
                 </ul>
             {% endif %}
         </div>
-    
-        
     </fieldset>
     <div class="form-group my-5">
         {{ form.submit(class="btn btn-primary") }}
