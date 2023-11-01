@@ -10,7 +10,7 @@ class Building(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(256), nullable = False)
     address = db.Column(db.String(256), nullable = False)
-    location_id = db.Column(db.Integer, nullable = False)
+    location_id = db.Column(db.Integer, db.ForeignKey("locations.id"), nullable = False)
     rt = db.Column(db.String(3), default="00")
     rw = db.Column(db.String(3), default="00")
     kelurahan = db.Column(db.String(256), nullable = False)

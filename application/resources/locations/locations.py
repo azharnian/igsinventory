@@ -7,7 +7,7 @@ def create_location(location_data):
         longitude=location_data.get("longitude"),
         latitude=location_data.get("latitude"),
         description=location_data.get("description"),
-        photo_location=location_data.get("photo_location", "default.jpg"),
+        photo_location=location_data.get("photo_location", "locations/default.jpg"),
         created_by=location_data["created_by"],
     )
     db.session.add(new_location)

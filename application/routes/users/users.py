@@ -1,6 +1,6 @@
 from flask import render_template, redirect, url_for, jsonify, flash, request
 from flask import Blueprint
-from flask_login import login_required, login_user, logout_user
+from flask_login import current_user, login_required, login_user, logout_user
 
 from application.utils import *
 from application.forms.users.users import *
@@ -11,22 +11,55 @@ users = Blueprint('users', __name__)
 #SESSION
 @users.route('/login', methods=['GET', 'POST'])
 def login():
-    return render_template('pages/users/login.html', title='Login')
+    if current_user.is_authenticated:
+        return redirect(url_for('users.index'))
+    
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = get_user_by_username(form.username.data)
+        if user and user.password == form.password.data:
+            login_user(user)
+            return redirect(url_for('users.index'))
+        flash('Something wrong, please try again', 'danger')
+    return render_template('pages/users/login.html', title='Login', form=form)
 
 @users.route('/logout')
 @login_required
 def logout():
-    pass
+    logout_user()
+    return redirect(url_for('users.login'))
 
 @users.route('/register', methods=['GET', 'POST'])
 def register():
-    pass
+    if current_user.is_authenticated:
+        return redirect(url_for('users.index'))
+    
+    form = RegistrationForm()
+
+    if form.validate_on_submit():
+        user_data = {
+            'username': form.username.data,
+            'email': form.email.data,
+            'phone': form.phone.data,
+            'password': form.password.data,
+            'first_name': form.first_name.data,
+            'last_name': form.last_name.data,
+            'role': 0
+        }
+        
+        res = create_user(user_data)
+        if res:
+            flash('Registration successful.', 'success')
+            return redirect(url_for('users.login'))
+        flash('Something wrong', 'error')
+
+    return render_template('pages/users/register.html', title='Register', form=form)
 
 #USER_PAGE
 
 #dasboard
 @users.route('/')
-# @login_required
+@login_required
 def index():
     return render_template("index.html", title='Dashboard')
 

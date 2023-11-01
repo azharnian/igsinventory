@@ -20,9 +20,9 @@ login_manager.login_message_category = 'info'
 
 
 
-def create_app(config_class=Config):
+def create_app(config_class=DevConfig):
     app = Flask(__name__, template_folder='views')
-    app.config.from_object(Config)
+    app.config.from_object(DevConfig)
 
     db.init_app(app)
     api.init_app(app)

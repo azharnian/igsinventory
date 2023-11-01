@@ -116,29 +116,49 @@
     </style>
 </head>
 <body class="d-flex align-items-center py-4 bg-body-tertiary">
-    <main class="form-signin w-100 m-auto">
-    <form>
-        <img class="mb-4" src="" alt="" width="72" height="57">
-        <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+    <main class="form-signin w-100 m-auto" style="position: relative;">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            <img class="mb-4" src="" alt="" width="72" height="57">
+            <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
-        <div class="form-floating">
-        <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
-        <label for="floatingInput">Email address</label>
-        </div>
-        <div class="form-floating">
-        <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
-        <label for="floatingPassword">Password</label>
-        </div>
+            <div class="form-floating">
+                {{ form.username(type="text", size=20, class="form-control", placeholder="name@example.com", id="floatingInput") }}
+                {{ form.username.label(for="floatingInput") }}
+                {% if form.username.errors %}
+                    <div class="text-danger">{{ form.username.errors | join(', ') }}</div>
+                {% endif %}
+            </div>
 
-        <div class="form-check text-start my-3">
-        <input class="form-check-input" type="checkbox" value="remember-me" id="flexCheckDefault">
-        <label class="form-check-label" for="flexCheckDefault">
-            Remember me
-        </label>
+            <div class="form-floating">
+                {{ form.password(size=20, class="form-control", placeholder="Password", id="floatingPassword") }}
+                {{ form.password.label(for="floatingPassword") }}
+                {% if form.password.errors %}
+                    <div class="text-danger">{{ form.password.errors | join(', ') }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-check text-start my-3">
+                {{ form.remember(class="form-check-input", id="flexCheckDefault") }}
+                {{ form.remember.label(class="form-check-label", for="flexCheckDefault") }}
+            </div>
+            <button class="btn btn-primary w-100 py-2" type="submit">Sign in</button>
+        </form>
+
+        <div>
+            <small>
+                Do not have an account <a href="{{ url_for('users.register')  }}">Register Here</a>
+            </small>
         </div>
-        <button class="btn btn-primary w-100 py-2" type="submit">Sign in</button>
-        <p class="mt-5 mb-3 text-body-secondary">&copy; 2023</p>
-    </form>
     </main>
     <script>
         if ( window.history.replaceState ) {

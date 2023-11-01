@@ -1,5 +1,7 @@
 from datetime import datetime
 
+from flask_login import UserMixin
+
 from application import db
 from application.models.users.roles import *
 from application.models.locations.locations import *
@@ -12,7 +14,7 @@ from application.models.items.item_types import *
 from application.models.items.items import *
 from application.models.logs.logs import *
 
-class User(db.Model):
+class User(db.Model, UserMixin):
     __tablename__ = "users"
 
     id = db.Column(db.Integer, primary_key = True)
