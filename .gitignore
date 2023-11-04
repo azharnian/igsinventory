@@ -3,6 +3,8 @@
 # !instance/.gitignore
 .webassets-cache
 .env
+key.pem
+cert.pem
 
 ### Flask.Python Stack ###
 # Byte-compiled / optimized / DLL files

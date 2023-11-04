@@ -1,9 +1,13 @@
+import secrets
+from datetime import datetime
+
 from application import db
 from application.models.items.items import Item
 
 def create_item(item_data):
+    random_code = f"{datetime.now().year}{datetime.now().month}{datetime.now().day}{secrets.token_urlsafe(8)}"
     new_item = Item(
-        code=item_data["code"],
+        code=random_code,
         name=item_data["name"],
         length=item_data.get("length", 0),
         width=item_data.get("width", 0),

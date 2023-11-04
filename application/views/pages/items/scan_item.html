@@ -1,0 +1,39 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <h1>QR Code Scanner</h1>
+    
+    <video id="video" playsinline autoplay style="width: 100%;"></video>
+    <input type="text" id="qrCodeResult" placeholder="Scanned QR Code will appear here">
+    
+    <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
+    
+    <script>
+        const video = document.getElementById('video');
+        const qrCodeResult = document.getElementById('qrCodeResult');
+        
+        const scanner = new Instascan.Scanner({ video });
+
+        scanner.addListener('scan', function (content) {
+            qrCodeResult.value = content;
+        });
+
+        Instascan.Camera.getCameras().then(function (cameras) {
+            // Find the back camera (facingMode: 'environment')
+            const backCamera = cameras.find(camera => camera.facing === 'environment');
+
+            if (backCamera) {
+                scanner.start(backCamera);
+            } else {
+                console.error('No back camera found. Using the default camera.');
+                if (cameras.length > 0) {
+                    scanner.start(cameras[1]);
+                } else {
+                    console.error('No cameras found.');
+                }
+            }
+        }).catch(function (error) {
+            console.error(error);
+        });
+    </script>
+{% endblock content %}

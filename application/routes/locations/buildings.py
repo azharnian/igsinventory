@@ -19,11 +19,6 @@ def all():
         data.append({
             'Id': building.id,
             'Name': building.name,
-            'Address': building.address,
-            'Location ID': building.location_id,
-            'Kelurahan': building.kelurahan,
-            'Kecamatan': building.kecamatan,
-            'City': building.city,
             'Action' : f'<div class="action-btn"><a href="{url_for('buildings.update', id=building.id)}">📝</a><a style="margin-left: 15px;" href="{url_for('buildings.delete', id=building.id)}">❌</a></div>'
         })
     df = pd.DataFrame(data)

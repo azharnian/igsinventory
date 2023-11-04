@@ -10,5 +10,5 @@ class AddRoomForm(FlaskForm):
     active = BooleanField('Active', default=True)
     submit = SubmitField('Add Room')
 
-class UpdateRoomForm(FlaskForm):
+class UpdateRoomForm(AddRoomForm):
     submit = SubmitField('Update Room')

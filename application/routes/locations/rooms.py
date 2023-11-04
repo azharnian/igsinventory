@@ -20,9 +20,7 @@ def all():
             'ID': room.id,
             'Room Code': room.room_code,
             'Room Name': room.room_name,
-            'Floor ID': room.floor_id,
-            'Active': 'Yes' if room.active else 'No',
-            'Create Date': room.create_date,
+            'Floor': room.floor_id,
             'Action': f'<div class="action-btn"><a href="{url_for('rooms.update', id=room.id)}">📝</a><a style="margin-left: 15px;" href="{url_for('rooms.delete', id=room.id)}">❌</a></div>'
         })
     df = pd.DataFrame(data)

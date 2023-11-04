@@ -19,10 +19,8 @@ def all():
         data.append({
             'Id': location.id,
             'Name': location.name,
-            'Longitude': location.longitude,
-            'Latitude': location.latitude,
-            'Date Created': location.date_created,
-            'Date Updated': location.date_updated,
+            'Long': location.longitude,
+            'Lat': location.latitude,
             'Action' : f'<div class="action-btn"><a href="{url_for('locations.update', id=location.id)}">📝</a><a style="margin-left: 15px;" href="{url_for('locations.delete', id=location.id)}">❌</a></div>'
         })
     df = pd.DataFrame(data)

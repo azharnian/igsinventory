@@ -104,7 +104,7 @@ class User(db.Model, Base):
 
     locations = db.relationship("Location", backref = "creator_locations", lazy = True)
 
-    type_items = db.relationship("Item_Type", backref = "creator_item_types", lazy = True)
+    type_items = db.relationship("ItemType", backref = "creator_item_types", lazy = True)
 
     items = db.relationship("Item", backref = "creator_items", lazy = True)
 

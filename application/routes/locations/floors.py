@@ -19,8 +19,7 @@ def all():
         data.append({
             'Id': floor.id,
             'Name': floor.name,
-            'Building ID': floor.building_id,
-            'Description': floor.description,
+            'Building': floor.building_id,
             'Action': f'<div class="action-btn"><a href="{url_for('floors.update', id=floor.id)}">📝</a><a style="margin-left: 15px;" href="{url_for('floors.delete', id=floor.id)}">❌</a></div>'
         })
     df = pd.DataFrame(data)

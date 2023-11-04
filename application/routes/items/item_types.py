@@ -13,7 +13,7 @@ item_types = Blueprint('item_types', __name__)
 @item_types.route('/item_types')
 @login_required
 def all():
-    item_types = Item_Type.query.all()
+    item_types = ItemType.query.all()
     data = []
     for item_type in item_types:
         data.append({
@@ -38,7 +38,7 @@ class AddItemTypeForm(FlaskForm):
 @item_types.route('/item_types/update/<int:id>', methods=['GET', 'POST'])
 @login_required
 def update(id=0):
-    item_type = Item_Type.query.get(id)
+    item_type = ItemType.query.get(id)
     if not id or not item_type:
         return redirect(url_for('item_types.all'))
 
@@ -63,7 +63,7 @@ def update(id=0):
 @item_types.route('/item_types/delete/<int:id>')
 @login_required
 def delete(id=0):
-    item_type = Item_Type.query.get(id)
+    item_type = ItemType.query.get(id)
     if not id or not item_type:
         return redirect(url_for('item_types.all'))
     

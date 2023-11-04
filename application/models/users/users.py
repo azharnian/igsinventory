@@ -41,7 +41,7 @@ class User(db.Model, UserMixin):
     buildings = db.relationship("Building", backref = "creator_buildings", lazy = True)
     floors = db.relationship("Floor", backref = "creator_floors", lazy = True)
     room = db.relationship("Room", backref="creator_rooms", lazy = True)
-    item_types = db.relationship("Item_Type", backref = "creator_item_types", lazy = True)
+    item_types = db.relationship("ItemType", backref = "creator_item_types", lazy = True)
     items = db.relationship("Item", backref = "creator_items", lazy = True)
     item_transfers = db.relationship("Transfer", backref = "transfered_executor", lazy = True)
     item_updates = db.relationship("Update", backref = "updated_executor", lazy = True)
