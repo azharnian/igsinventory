@@ -5,6 +5,7 @@
 .env
 key.pem
 cert.pem
+*.db
 
 ### Flask.Python Stack ###
 # Byte-compiled / optimized / DLL files
