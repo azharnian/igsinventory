@@ -12,7 +12,7 @@ def create_item_type(item_type_data):
     return new_item_type
 
 def get_all_item_types():
-    return ItemType.query.all()
+    return ItemType.query.order_by(ItemType.id.asc()).all()
 
 def get_item_type_by_id(item_type_id):
     return ItemType.query.get(item_type_id)

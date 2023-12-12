@@ -1,0 +1,43 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <script src="https://cdn.jsdelivr.net/npm/quagga@0.12.1/dist/quagga.min.js"></script>
+    <h1>Barcode Scanner</h1>
+    <div id="interactive" class="viewport"></div>
+ 
+    <script>
+        // Set up QuaggaJS configuration
+        const config = {
+            inputStream: {
+                name: "Live",
+                type: "LiveStream",
+                target: document.querySelector("#interactive"),
+                constraints: {
+                    width: 640,
+                    height: 480,
+                    facingMode: "environment" // use the rear camera (change to "user" for front camera)
+                }
+            },
+            decoder: {
+                readers: ["code_128_reader", "code_39_reader", "i2of5_reader"]
+            }
+        };
+
+        // Initialize QuaggaJS
+        Quagga.init(config, (err) => {
+            if (err) {
+                console.error(err);
+                return;
+            }
+            Quagga.start();
+        });
+
+        // Add event listener for successful barcode scans
+        Quagga.onDetected((result) => {
+            const code = result.codeResult.code;
+            console.log("Barcode detected:", code);
+            // Do something with the barcode, e.g., send it to a server
+        });
+
+    </script>
+{% endblock content %}

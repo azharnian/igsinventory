@@ -1,12 +1,12 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, TextAreaField, IntegerField, SubmitField
+from wtforms import StringField, TextAreaField, IntegerField, SubmitField, SelectField
 from wtforms.validators import DataRequired, Length, Optional
 from flask_wtf.file import FileField, FileAllowed
 
 class AddBuildingForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired(), Length(max=256)])
     address = StringField('Address', validators=[DataRequired(), Length(max=256)])
-    location_id = IntegerField('Location ID', validators=[DataRequired()])
+    location_id = SelectField('Location ID', validators=[DataRequired()])
     rt = StringField('RT', default="00")
     rw = StringField('RW', default="00")
     kelurahan = StringField('Kelurahan', validators=[DataRequired(), Length(max=256)])

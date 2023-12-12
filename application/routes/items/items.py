@@ -1,4 +1,6 @@
-from flask import render_template, redirect, url_for, flash, request
+import os
+
+from flask import render_template, redirect, url_for, flash, request, current_app
 from flask import Blueprint
 from flask_login import login_required, current_user
 
@@ -9,7 +11,7 @@ from application.models.items.items import *
 from application.models.items.item_types import *
 from application.forms.items.items import *
 from application.resources.items.items import *
-from application.utils import generate_qr_code
+from application.utils import generate_qr_code, generate_qr_code_with_logo
 
 items = Blueprint('items', __name__)
 
@@ -23,8 +25,8 @@ def all():
             'ID': item.id,
             'Code': item.code,
             'Name': item.name,
-            'Action': f'<div class="action-btn"><a href="{url_for("items.update", id=item.id)}">📝</a><a style="margin-left: 15px;" href="{url_for("items.delete", id=item.id)}">❌</a></div>'
-        })
+            'Action': f'<div class="action-btn"><a href="{url_for("items.update", id=item.id)}">📝</a></div>'
+        }) #<a style="margin-left: 15px;" href="{url_for("items.delete", id=item.id)}">❌</a>
     df = pd.DataFrame(data)
     html_table = df.to_html(classes='table table-striped table-bordered', escape=False, index=False)
 
@@ -38,7 +40,9 @@ def update(id=0):
     if not id or not item:
         return redirect(url_for('items.all'))
 
-    qrcode = generate_qr_code(item.code)
+    # qrcode = generate_qr_code(item.code)
+    path = os.path.join(current_app.root_path, 'static/', 'igs_gray.jpg')
+    qrcode = generate_qr_code_with_logo(item.code, path)
     form = UpdateItemForm(obj=item)
 
     if form.validate_on_submit():
@@ -118,3 +122,9 @@ def add():
 def scan():
 
     return render_template('pages/items/scan_item.html', title='Scan Item')
+
+
+@items.route('/items/scan_39', methods=['GET', 'POST'])
+@login_required
+def scan_39():
+    return render_template('pages/items/scan_item_39.html', title='Scan 39 Item')

@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from flask_wtf import FlaskForm
-from wtforms import StringField, FloatField, BooleanField, DateTimeField, TextAreaField, IntegerField, SubmitField
+from wtforms import StringField, FloatField, BooleanField, DateTimeField, TextAreaField, SubmitField, SelectField
 from wtforms.validators import DataRequired, Optional
 from flask_wtf.file import FileField, FileAllowed
 
@@ -33,8 +33,8 @@ class AddItemForm(FlaskForm):
     is_broken = BooleanField('Is Broken', default=False)
     is_active = BooleanField('Is Active', default=True)
     photo_location = StringField('Photo Location')
-    room_id = IntegerField('Room ID', validators=[DataRequired()])
-    item_type_id = IntegerField('Item Type ID', validators=[DataRequired()])
+    room_id = SelectField('Room ID', validators=[DataRequired()])
+    item_type_id = SelectField('Item Type ID', validators=[DataRequired()])
     description = TextAreaField('Description')
     submit = SubmitField('Add Item')
 
