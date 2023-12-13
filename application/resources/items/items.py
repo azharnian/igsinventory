@@ -3,9 +3,14 @@ from datetime import datetime
 
 from application import db
 from application.models.items.items import Item
+from application.utils import save_picture
 
 def create_item(item_data):
     random_code = f"{datetime.now().year}{datetime.now().month}{datetime.now().day}{secrets.token_urlsafe(8)}"
+    image_file = "default.jpg"
+    if item_data.get("photo_item"):
+            picture_file = save_picture(item_data.get("photo_item"), prefix="items")
+            image_file = picture_file
     new_item = Item(
         code=random_code,
         name=item_data["name"],
@@ -14,7 +19,7 @@ def create_item(item_data):
         height=item_data.get("height", 0),
         weight=item_data.get("weight", 0),
         color=item_data.get("color"),
-        photo_item=item_data.get("photo_item", "items/default.jpg"),
+        photo_item=image_file,
         is_electronic=item_data.get("is_electronic", False),
         is_waterresistant=item_data.get("is_waterresistant", False),
         price=item_data.get("price", 0),
@@ -53,9 +58,16 @@ def get_item_by_id(item_id):
 def get_items_by_room(room_id):
     return Item.query.filter_by(room_id=room_id).all()
 
+def get_item_by_code(item_code):
+    return Item.query.filter_by(code=item_code).first()
+
 
 def update_item(item_id, item_data):
     item = Item.query.get(item_id)
+    image_file = item.photo_item
+    if item_data.get("photo_item") != image_file:
+        picture_file = save_picture(item_data.get("photo_item"), prefix="items")
+        image_file = picture_file
     if item:
         item.code = item_data.get("code", item.code)
         item.name = item_data.get("name", item.name)
@@ -64,7 +76,7 @@ def update_item(item_id, item_data):
         item.height = item_data.get("height", item.height)
         item.weight = item_data.get("weight", item.weight)
         item.color = item_data.get("color", item.color)
-        item.photo_item = item_data.get("photo_item", item.photo_item)
+        item.photo_item = image_file
         item.is_electronic = item_data.get("is_electronic", item.is_electronic)
         item.is_waterresistant = item_data.get("is_waterresistant", item.is_waterresistant)
         item.price = item_data.get("price", item.price)

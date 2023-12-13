@@ -1,25 +1,27 @@
 {% extends 'layout.html' %}
 
 {% block content %}
+    <h1>Scan Barcode</h1>
     <video id="video" playsinline autoplay width="100%"></video>
-    <input type="text" id="qrCodeResult" placeholder="Scanned QR Code will appear here" style="width: 100%;">
     
     <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
     
     <script>
         const video = document.getElementById('video');
         const qrCodeResult = document.getElementById('qrCodeResult');
-        
+
+        const redirectToURL = url => {
+            window.location.href = url;
+        };
+
         const scanner = new Instascan.Scanner({ video });
 
         scanner.addListener('scan', function (content) {
-            qrCodeResult.value = content;
+            redirectToURL(`${window.location.origin}/items/detail?code=${content}`);
         });
 
         Instascan.Camera.getCameras().then(function (cameras) {
-            // Find the back camera (facingMode: 'environment')
             const backCamera = cameras.find(camera => camera.facing === 'environment');
-            console.log(cameras)
             if (backCamera) {
                 scanner.start(backCamera);
             } 

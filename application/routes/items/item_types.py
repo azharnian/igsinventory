@@ -19,10 +19,7 @@ def all():
         data.append({
             'ID': item_type.id,
             'Name Type': item_type.name_type,
-            'Description': item_type.description,
-            'Date Created': item_type.date_created,
-            'Date Updated': item_type.date_updated,
-            'Action': f'<div class="action-btn"><a href="{url_for("item_types.update", id=item_type.id)}">📝</a><a style="margin-left: 15px;" href="{url_for("item_types.delete", id=item_type.id)}">❌</a></div>'
+            'Action': f'<div class="action-btn"><a href="{url_for("item_types.update", id=item_type.id)}">📝</a></div>' #<a style="margin-left: 15px;" href="{url_for("item_types.delete", id=item_type.id)}">❌</a>
         })
     df = pd.DataFrame(data)
     html_table = df.to_html(classes='table table-striped table-bordered', escape=False, index=False)
@@ -52,7 +49,7 @@ def update(id=0):
         res = update_item_type(id, item_type_data)
         if res:
             flash('Update success.', 'success')
-            return redirect(url_for('rooms.all'))
+            return redirect(url_for('item_types.all'))
         flash('Update failed', 'danger')
 
     form.name_type.data = item_type.name_type

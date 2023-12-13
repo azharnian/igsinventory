@@ -1,7 +1,9 @@
+import os
 import qrcode
 from PIL import Image
 from io import BytesIO
 import base64
+import secrets
 
 from flask import current_app
 from wtforms.validators import ValidationError
@@ -27,13 +29,29 @@ def exists_username(form, username):
     user = User.query.filter_by(username = username.data).first()
     if user:
         raise ValidationError("Username already exists. Please use a different username")
+
+def save_picture(form_picture, prefix):
+    random_hex = secrets.token_hex(5)
+    _, f_ext = os.path.splitext(form_picture.filename)
+    picture_fn = f'assets/images/{prefix}/'+random_hex+f_ext
+    picture_path = os.path.join(current_app.root_path, 'static/', picture_fn)
     
+    basewidth = 500
+    image = Image.open(form_picture)
+    wpercent = (basewidth/float(image.size[0]))
+    hsize = int((float(image.size[1])*float(wpercent)))
+    image = image.resize((basewidth, hsize))
+
+    image.save(picture_path)
+
+    return picture_fn
+
 def generate_qr_code(code):
-	qr_url = qrcode.make(str(code))
-	qr_img = BytesIO()
-	qr_url.save(qr_img, "PNG")
-	encoded_qr_img = base64.b64encode(qr_img.getvalue())
-	return encoded_qr_img
+    qr_url = qrcode.make(str(code))
+    qr_img = BytesIO()
+    qr_url.save(qr_img, "PNG")
+    encoded_qr_img = base64.b64encode(qr_img.getvalue())
+    return encoded_qr_img
 
 def generate_qr_code_with_logo(code, logo_path):
 

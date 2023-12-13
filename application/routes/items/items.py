@@ -23,7 +23,6 @@ def all():
     for item in items:
         data.append({
             'ID': item.id,
-            'Code': item.code,
             'Name': item.name,
             'Action': f'<div class="action-btn"><a href="{url_for("items.update", id=item.id)}">📝</a></div>'
         }) #<a style="margin-left: 15px;" href="{url_for("items.delete", id=item.id)}">❌</a>
@@ -32,6 +31,32 @@ def all():
 
     return render_template('pages/items/view_all_items.html', title="All Items", html_table=html_table)
 
+@items.route('/items/detail', methods=['GET'])
+@login_required
+def detail():
+    try:
+        code = request.args.get('code')
+    except:
+        code = ''
+    if code:
+        item = get_item_by_code(code)
+        return render_template('pages/items/detail_item.html', title=str(item.name), item=item)
+    return redirect(url_for('items.scan'))
+
+@items.route('/items/print_barcode', methods=['GET'])
+@login_required
+def print():
+    try:
+        code = request.args.get('code')
+    except:
+        code = ''
+    if code:
+        item = get_item_by_code(code)
+        path = os.path.join(current_app.root_path, 'static/', 'igs_gray.jpg')
+        qrcode = generate_qr_code_with_logo(item.code, path)
+        return render_template('pages/items/printed_barcode_item.html', title=str(item.name), qrcode=qrcode.decode('utf-8'), item=item)
+    return redirect(url_for('items.scan'))
+
 @items.route('/items/update', methods=['GET', 'POST'])
 @items.route('/items/update/<int:id>', methods=['GET', 'POST'])
 @login_required
@@ -39,11 +64,13 @@ def update(id=0):
     item = Item.query.get(id)
     if not id or not item:
         return redirect(url_for('items.all'))
-
-    # qrcode = generate_qr_code(item.code)
-    path = os.path.join(current_app.root_path, 'static/', 'igs_gray.jpg')
-    qrcode = generate_qr_code_with_logo(item.code, path)
+    
     form = UpdateItemForm(obj=item)
+    rooms = Room.query.all()
+    item_types = ItemType.query.all()
+    form.room_id.choices = [(room.id, room.room_name) for room in rooms]
+    form.item_type_id.choices = [(item_type.id, item_type.name_type) for item_type in item_types]
+
 
     if form.validate_on_submit():
         item_data = {
@@ -84,7 +111,7 @@ def update(id=0):
             flash('Update success.', 'success')
             return redirect(url_for('items.all'))
 
-    return render_template('pages/items/update_item.html', title=f'Update Item: {item.name}', qrcode=qrcode.decode('utf-8'), form=form)
+    return render_template('pages/items/update_item.html', title=f'Update Item: {item.name}', form=form, item=item)
 
 @items.route('/items/delete/<int:id>')
 @login_required

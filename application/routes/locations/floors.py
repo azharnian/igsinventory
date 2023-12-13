@@ -35,6 +35,8 @@ def update(id=0):
     if not id or not floor_data:
         return redirect(url_for('floors.all'))
     form = UpdateFloorForm()
+    buildings = Building.query.all()
+    form.building_id.choices = [(building.id, building.name) for building in buildings]
 
     if form.validate_on_submit():
         floor_data = {
@@ -71,6 +73,8 @@ def delete(id=0):
 @login_required
 def add():
     form = AddFloorForm()
+    buildings = Building.query.all()
+    form.building_id.choices = [(building.id, building.name) for building in buildings]
 
     if form.validate_on_submit():
         floor_data = {

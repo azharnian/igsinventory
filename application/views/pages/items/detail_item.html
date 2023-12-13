@@ -1,0 +1,14 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <section class="content" style="text-align: center;">
+        <h1>{{ item.name }}</h1>
+        <p>Kode : {{ item.code }}</p>
+        <div class="mb-5">
+            <img src="{{ url_for('static', filename=item.photo_item) }}" alt="Item Photo" width="300px">
+        </div>
+        
+        <a href="{{ url_for('items.update', id=item.id) }}" class="btn btn-primary">Update Item</a>
+        <a href="" class="btn btn-secondary">Transfer Item</a>
+    </section>
+{% endblock content %}

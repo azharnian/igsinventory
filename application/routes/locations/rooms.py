@@ -18,9 +18,7 @@ def all():
     for room in rooms:
         data.append({
             'ID': room.id,
-            'Room Code': room.room_code,
             'Room Name': room.room_name,
-            'Floor': room.floor_id,
             'Action': f'<div class="action-btn"><a href="{url_for('rooms.update', id=room.id)}">📝</a><a style="margin-left: 15px;" href="{url_for('rooms.delete', id=room.id)}">❌</a></div>'
         })
     df = pd.DataFrame(data)
@@ -36,6 +34,8 @@ def update(id=0):
     if not id or not room_data:
         return redirect(url_for('rooms.all'))
     form = UpdateRoomForm()
+    floors = Floor.query.all()
+    form.floor_id.choices = [(floor.id, floor.name) for floor in floors]
 
     if form.validate_on_submit():
         room_data = {
@@ -74,6 +74,9 @@ def delete(id=0):
 @login_required
 def add():
     form = AddRoomForm()
+
+    floors = Floor.query.all()
+    form.floor_id.choices = [(floor.id, floor.name) for floor in floors]
 
     if form.validate_on_submit():
         room_data = {

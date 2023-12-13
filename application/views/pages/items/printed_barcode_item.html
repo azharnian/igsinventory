@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QRCode : {{ item.name }}</title>
+  <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.0/dist/JsBarcode.all.min.js"></script>
+  <style>
+    body {
+      font-family: 'Courier New', Courier, monospace;
+      margin: 10px;
+    }
+    #barcode-container {
+        margin: 0 auto;
+        width: 350px;
+        border: 1px solid black;
+    }
+
+    .detail {
+        padding-left: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="barcode-container" style="background: rgb(215, 213, 213);">
+    <img class="qr-image" src="data:image/png;base64,{{ qrcode }}" alt="QR Code" style="float: left;" height="150px">
+    <div class="detail" style="float: left;">
+        <h3>IGS Inventory</h3>
+        <small><strong>{{ item.name }}</strong></small><br />
+        <small><strong>{{ item.budget_type }}</strong></small><br /><br />
+        <small>REGISTERED : {{ item.date_created.strftime('%d/%m/%Y') }}</small><br />
+        <small>ID : {{ "{:08d}".format(item.id) }}</small>
+    </div>
+    <div class="clear" style="clear: left;"></div>
+  </div>
+
+</body>
+</html>

@@ -1,389 +1,416 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-<h1>{{ title }}</h1>
+<p>{{ title }}</p>
 <hr>
-<img class="qr-image" src="data:image/png;base64,{{ qrcode }}" alt="QR Code">
-<form method="POST" enctype="multipart/form-data" class="form">
-    {{ form.hidden_tag() }}
-    <fieldset>
-        <div class="form-group">
-            {{ form.code.label(class="control-label") }}
-            {{ form.code(class="form-control", size=30, disabled=True) }}
-            {% if form.code.errors %}
-                <ul class="errors">
-                    {% for error in form.code.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
+<div class="container mb-4 qr-container">
+    <div class="row">
+        <div class="col-sm-12 mb-4">
+            <img src="{{ url_for('static', filename=item.photo_item) }}" alt="Photo Item" width="300px">
         </div>
-
-        <div class="form-row">
-            <div class="form-group col-md-8 mt-4 mb-4">
-                    {{ form.photo_item.label() }}
-                    {{ form.photo_item(class="form-control-file") }}
-
-                    {% if form.photo_item.errors %}
-                        {% for error in form.photo_item.errors %}
-                            <span class="text-danger">{{ error }}</span>
-                        {% endfor %}
-                    {% endif %}
-            </div>
+    
+        <div class="col-sm-12 d-flex justify-content-center">
+            <a href="{{ url_for('items.print', code=item.code) }}" class="btn btn-primary" target="_blank">Print Barcode</a>
         </div>
-
-        <div class="form-group">
-            {{ form.name.label(class="control-label") }}
-            {{ form.name(class="form-control", size=30) }}
-            {% if form.name.errors %}
-                <ul class="errors">
-                    {% for error in form.name.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        </div>
-
-        <div class="form-group">
-            {{ form.length.label(class="control-label") }}
-            {{ form.length(class="form-control") }}
-            {% if form.length.errors %}
-                <ul class="errors">
-                    {% for error in form.length.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        </div>
-
-        <div class="form-group">
-            {{ form.width.label(class="control-label") }}
-            {{ form.width(class="form-control") }}
-            {% if form.width.errors %}
-                <ul class="errors">
-                    {% for error in form.width.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        </div>
-
-        <div class="form-group">
-            {{ form.height.label(class="control-label") }}
-            {{ form.height(class="form-control") }}
-            {% if form.height.errors %}
-                <ul class="errors">
-                    {% for error in form.height.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        </div>
-
-        <div class="form-group">
-            {{ form.weight.label(class="control-label") }}
-            {{ form.weight(class="form-control") }}
-            {% if form.weight.errors %}
-                <ul class="errors">
-                    {% for error in form.weight.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        </div>
-
-        <div class="form-group">
-            {{ form.color.label(class="control-label") }}
-            {{ form.color(class="form-control") }}
-            {% if form.color.errors %}
-                <ul class="errors">
-                    {% for error in form.color.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        </div>
-
-        <div class="form-group">
-            {{ form.is_electronic.label(class="form-check-label") }}
-            {{ form.is_electronic(class="form-check-input") }}
-            {% if form.is_electronic.errors %}
-                <ul class="errors">
-                    {% for error in form.is_electronic.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        </div>
-
-        <div class="form-group">
-            {{ form.is_waterresistant.label(class="form-check-label") }}
-            {{ form.is_waterresistant(class="form-check-input") }}
-            {% if form.is_waterresistant.errors %}
-                <ul class="errors">
-                    {% for error in form.is_waterresistant.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        </div>
-
-        <div class="form-group">
-            {{ form.price.label(class="control-label") }}
-            {{ form.price(class="form-control") }}
-            {% if form.price.errors %}
-                <ul class="errors">
-                    {% for error in form.price.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        </div>
-
-        <div class="form-group">
-            {{ form.make.label(class="control-label") }}
-            {{ form.make(class="form-control") }}
-            {% if form.make.errors %}
-                <ul class="errors">
-                    {% for error in form.make.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        </div>
-
-        <div class="form-group">
-            {{ form.model.label(class="control-label") }}
-            {{ form.model(class="form-control") }}
-            {% if form.model.errors %}
-                <ul class="errors">
-                    {% for error in form.model.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        </div>
-
-        <div class="form-group">
-            {{ form.store.label(class="control-label") }}
-            {{ form.store(class="form-control") }}
-            {% if form.store.errors %}
-                <ul class="errors">
-                    {% for error in form.store.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        </div>
-
-        <div class="form-group">
-            {{ form.volume_cc.label(class="control-label") }}
-            {{ form.volume_cc(class="form-control") }}
-            {% if form.volume_cc.errors %}
-                <ul class="errors">
-                    {% for error in form.volume_cc.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        </div>
-
-        <div class="form-group">
-            {{ form.material.label(class="control-label") }}
-            {{ form.material(class="form-control") }}
-            {% if form.material.errors %}
-                <ul class="errors">
-                    {% for error in form.material.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        </div>
-
-        <div class="form-group">
-            {{ form.machine_number.label(class="control-label") }}
-            {{ form.machine_number(class="form-control") }}
-            {% if form.machine_number.errors %}
-                <ul class="errors">
-                    {% for error in form.machine_number.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        </div>
-
-        <div class="form-group">
-            {{ form.police_state_number.label(class="control-label") }}
-            {{ form.police_state_number(class="form-control") }}
-            {% if form.police_state_number.errors %}
-                <ul class="errors">
-                    {% for error in form.police_state_number.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        </div>
-
-        <div class="form-group">
-            {{ form.serial_number.label(class="control-label") }}
-            {{ form.serial_number(class="form-control") }}
-            {% if form.serial_number.errors %}
-                <ul class="errors">
-                    {% for error in form.serial_number.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        </div>
-
-        <div class="form-group">
-            {{ form.date_purchased.label(class="control-label") }}
-            {{ form.date_purchased(class="form-control") }}
-            {% if form.date_purchased.errors %}
-                <ul class="errors">
-                    {% for error in form.date_purchased.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        </div>
-
-        <div class="form-group">
-            {{ form.budget_type.label(class="control-label") }}
-            {{ form.budget_type(class="form-control") }}
-            {% if form.budget_type.errors %}
-                <ul class="errors">
-                    {% for error in form.budget_type.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        </div>
-
-        <div class="form-group">
-            {{ form.origin_country.label(class="control-label") }}
-            {{ form.origin_country(class="form-control") }}
-            {% if form.origin_country.errors %}
-                <ul class="errors">
-                    {% for error in form.origin_country.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        </div>
-
-        <div class="form-group">
-            {{ form.percent_depreciation_per_year.label(class="control-label") }}
-            {{ form.percent_depreciation_per_year(class="form-control") }}
-            {% if form.percent_depreciation_per_year.errors %}
-                <ul class="errors">
-                    {% for error in form.percent_depreciation_per_year.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        </div>
-
-        <div class="form-group">
-            {{ form.percent_demage.label(class="control-label") }}
-            {{ form.percent_demage(class="form-control") }}
-            {% if form.percent_demage.errors %}
-                <ul class="errors">
-                    {% for error in form.percent_demage.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        </div>
-
-        <div class="form-group">
-            {{ form.is_available.label(class="form-check-label") }}
-            {{ form.is_available(class="form-check-input") }}
-            {% if form.is_available.errors %}
-                <ul class="errors">
-                    {% for error in form.is_available.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        </div>
-
-        <div class="form-group">
-            {{ form.is_broken.label(class="form-check-label") }}
-            {{ form.is_broken(class="form-check-input") }}
-            {% if form.is_broken.errors %}
-                <ul class="errors">
-                    {% for error in form.is_broken.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        </div>
-
-        <div class="form-group">
-            {{ form.is_active.label(class="form-check-label") }}
-            {{ form.is_active(class="form-check-input") }}
-            {% if form.is_active.errors %}
-                <ul class="errors">
-                    {% for error in form.is_active.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        </div>
-
-        <div class="form-group">
-            {{ form.photo_location.label(class="control-label") }}
-            {{ form.photo_location(class="form-control") }}
-            {% if form.photo_location.errors %}
-                <ul class="errors">
-                    {% for error in form.photo_location.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        </div>
-
-        <div class="form-group">
-            {{ form.room_id.label(class="control-label") }}
-            {{ form.room_id(class="form-control") }}
-            {% if form.room_id.errors %}
-                <ul class="errors">
-                    {% for error in form.room_id.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        </div>
-
-        <div class="form-group">
-            {{ form.item_type_id.label(class="control-label") }}
-            {{ form.item_type_id(class="form-control") }}
-            {% if form.item_type_id.errors %}
-                <ul class="errors">
-                    {% for error in form.item_type_id.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        </div>
-
-        <div class="form-group">
-            {{ form.description.label(class="control-label") }}
-            {{ form.description(class="form-control") }}
-            {% if form.description.errors %}
-                <ul class="errors">
-                    {% for error in form.description.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        </div>
-
-    </fieldset>
-
-    <div class="form-group mt-4">
-        {{ form.submit(class="btn btn-primary") }}
     </div>
-</form>
+</div>
+<section class="content container-fluid">
+    <form method="POST" enctype="multipart/form-data" class="form">
+        {{ form.hidden_tag() }}
+        <fieldset>
+            <legend>Add new item</legend>
+    
+            <div class="container">
+    
+    
+            <div class="form-group my-3">
+                {{ form.name.label(class="control-label") }}
+                {{ form.name(class="form-control", size=30) }}
+                {% if form.name.errors %}
+                    <ul class="errors">
+                        {% for error in form.name.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+    
+            <div class="form-group my-3">
+                {{ form.photo_item.label(class="control-label") }}
+                {{ form.photo_item(class="form-control-file") }}
+                {% if form.photo_item.errors %}
+                    <ul class="errors">
+                        {% for error in form.photo_item.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+    
+            <div class="row my-3">
+                <div class="col-md-4 col-6">
+                  <div class="form-group">
+                    {{ form.length.label(class="control-label") }}
+                    {{ form.length(class="form-control") }}
+                    {% if form.length.errors %}
+                      <ul class="errors">
+                        {% for error in form.length.errors %}
+                          <li>{{ error }}</li>
+                        {% endfor %}
+                      </ul>
+                    {% endif %}
+                  </div>
+                </div>
+        
+                <div class="col-md-4 col-6">
+                  <div class="form-group">
+                    {{ form.width.label(class="control-label") }}
+                    {{ form.width(class="form-control") }}
+                    {% if form.width.errors %}
+                      <ul class="errors">
+                        {% for error in form.width.errors %}
+                          <li>{{ error }}</li>
+                        {% endfor %}
+                      </ul>
+                    {% endif %}
+                  </div>
+                </div>
+        
+                <div class="col-md-4 col-6">
+                  <div class="form-group">
+                    {{ form.height.label(class="control-label") }}
+                    {{ form.height(class="form-control") }}
+                    {% if form.height.errors %}
+                      <ul class="errors">
+                        {% for error in form.height.errors %}
+                          <li>{{ error }}</li>
+                        {% endfor %}
+                      </ul>
+                    {% endif %}
+                  </div>
+                </div>
+            </div>
+    
+            <div class="row my-3">
+                <div class="col-md-4 col-6">
+                  <div class="form-group">
+                    {{ form.weight.label(class="control-label") }}
+                    {{ form.weight(class="form-control") }}
+                    {% if form.weight.errors %}
+                      <ul class="errors">
+                        {% for error in form.weight.errors %}
+                          <li>{{ error }}</li>
+                        {% endfor %}
+                      </ul>
+                    {% endif %}
+                  </div>
+                </div>
+        
+                <div class="col-md-4 col-6">
+                  <div class="form-group">
+                    {{ form.color.label(class="control-label") }}
+                    {{ form.color(class="form-control") }}
+                    {% if form.color.errors %}
+                      <ul class="errors">
+                        {% for error in form.color.errors %}
+                          <li>{{ error }}</li>
+                        {% endfor %}
+                      </ul>
+                    {% endif %}
+                  </div>
+                </div>
+            </div>
+    
+            <div class="row my-3">
+                <div class="col-6">
+                    <div class="form-group">
+                        {{ form.is_electronic.label(class="form-check-label small") }}
+                        {{ form.is_electronic(class="form-check-input") }}
+                        {% if form.is_electronic.errors %}
+                            <ul class="errors">
+                                {% for error in form.is_electronic.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                </div>
+    
+                <div class="col-6">
+                    <div class="form-group">
+                        {{ form.is_waterresistant.label(class="form-check-label small") }}
+                        {{ form.is_waterresistant(class="form-check-input") }}
+                        {% if form.is_waterresistant.errors %}
+                            <ul class="errors">
+                                {% for error in form.is_waterresistant.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                </div>
+    
+            </div>
+
+            <div class="row my-3">
+                <div class="form-group col-6">
+                    {{ form.price.label(class="control-label") }}
+                    {{ form.price(class="form-control") }}
+                    {% if form.price.errors %}
+                        <ul class="errors">
+                            {% for error in form.price.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+        
+                <div class="form-group col-6">
+                    {{ form.make.label(class="control-label") }}
+                    {{ form.make(class="form-control") }}
+                    {% if form.make.errors %}
+                        <ul class="errors">
+                            {% for error in form.make.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+        
+                <div class="form-group col-6">
+                    {{ form.model.label(class="control-label") }}
+                    {{ form.model(class="form-control") }}
+                    {% if form.model.errors %}
+                        <ul class="errors">
+                            {% for error in form.model.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+        
+                <div class="form-group col-6">
+                    {{ form.store.label(class="control-label") }}
+                    {{ form.store(class="form-control") }}
+                    {% if form.store.errors %}
+                        <ul class="errors">
+                            {% for error in form.store.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+            </div>
+    
+            <div class="row my-3">
+                <div class="form-group col-6">
+                    {{ form.volume_cc.label(class="control-label") }}
+                    {{ form.volume_cc(class="form-control") }}
+                    {% if form.volume_cc.errors %}
+                        <ul class="errors">
+                            {% for error in form.volume_cc.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+        
+                <div class="form-group col-6">
+                    {{ form.material.label(class="control-label") }}
+                    {{ form.material(class="form-control") }}
+                    {% if form.material.errors %}
+                        <ul class="errors">
+                            {% for error in form.material.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+        
+                <div class="form-group col-6">
+                    {{ form.machine_number.label(class="control-label") }}
+                    {{ form.machine_number(class="form-control") }}
+                    {% if form.machine_number.errors %}
+                        <ul class="errors">
+                            {% for error in form.machine_number.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+        
+                <div class="form-group col-6">
+                    {{ form.police_state_number.label(class="control-label") }}
+                    {{ form.police_state_number(class="form-control") }}
+                    {% if form.police_state_number.errors %}
+                        <ul class="errors">
+                            {% for error in form.police_state_number.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+        
+                <div class="form-group col-6">
+                    {{ form.serial_number.label(class="control-label") }}
+                    {{ form.serial_number(class="form-control") }}
+                    {% if form.serial_number.errors %}
+                        <ul class="errors">
+                            {% for error in form.serial_number.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+            </div>
+    
+            <div class="form-group my-3">
+                {{ form.date_purchased.label(class="control-label") }}
+                {{ form.date_purchased(class="form-control") }}
+                {% if form.date_purchased.errors %}
+                    <ul class="errors">
+                        {% for error in form.date_purchased.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+    
+            <div class="form-group my-3">
+                {{ form.budget_type.label(class="control-label") }}
+                {{ form.budget_type(class="form-control") }}
+                {% if form.budget_type.errors %}
+                    <ul class="errors">
+                        {% for error in form.budget_type.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <div class="row my-3">
+                <div class="form-group col-6">
+                    {{ form.origin_country.label(class="control-label") }}
+                    {{ form.origin_country(class="form-control") }}
+                    {% if form.origin_country.errors %}
+                        <ul class="errors">
+                            {% for error in form.origin_country.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+        
+                <div class="form-group col-6">
+                    {{ form.percent_depreciation_per_year.label(class="control-label") }}
+                    {{ form.percent_depreciation_per_year(class="form-control") }}
+                    {% if form.percent_depreciation_per_year.errors %}
+                        <ul class="errors">
+                            {% for error in form.percent_depreciation_per_year.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+        
+                <div class="form-group col-6">
+                    {{ form.percent_demage.label(class="control-label") }}
+                    {{ form.percent_demage(class="form-control") }}
+                    {% if form.percent_demage.errors %}
+                        <ul class="errors">
+                            {% for error in form.percent_demage.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+            </div>
+    
+            
+            <div class="row my-3">
+                <div class="form-group col-md-4 col-6">
+                    {{ form.is_available.label(class="form-check-label") }}
+                    {{ form.is_available(class="form-check-input") }}
+                    {% if form.is_available.errors %}
+                        <ul class="errors">
+                            {% for error in form.is_available.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+        
+                <div class="form-group col-md-4 col-6">
+                    {{ form.is_broken.label(class="form-check-label") }}
+                    {{ form.is_broken(class="form-check-input") }}
+                    {% if form.is_broken.errors %}
+                        <ul class="errors">
+                            {% for error in form.is_broken.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+        
+                <div class="form-group col-md-4 col-6">
+                    {{ form.is_active.label(class="form-check-label") }}
+                    {{ form.is_active(class="form-check-input") }}
+                    {% if form.is_active.errors %}
+                        <ul class="errors">
+                            {% for error in form.is_active.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="row my-3">
+                <div class="form-group col-6">
+                    {{ form.room_id.label(class="control-label") }}
+                    {{ form.room_id(class="form-control") }}
+                    {% if form.room_id.errors %}
+                        <ul class="errors">
+                            {% for error in form.room_id.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+        
+                <div class="form-group col-6">
+                    {{ form.item_type_id.label(class="control-label") }}
+                    {{ form.item_type_id(class="form-control") }}
+                    {% if form.item_type_id.errors %}
+                        <ul class="errors">
+                            {% for error in form.item_type_id.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+            </div>
+    
+            <div class="form-group my-3">
+                {{ form.description.label(class="control-label") }}
+                {{ form.description(class="form-control") }}
+                {% if form.description.errors %}
+                    <ul class="errors">
+                        {% for error in form.description.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+    
+            </div>
+    
+    
+        </fieldset>
+    
+        <div class="form-group mt-4 d-flex justify-content-center">
+            {{ form.submit(class="btn btn-primary") }}
+        </div>
+    </form>
+</section>
 {% endblock content %}
