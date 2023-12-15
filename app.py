@@ -9,7 +9,8 @@ def main():
     DEBUG = os.environ.get('FLASK_DEBUG')
     HOST = os.environ.get('HOST')
     app = create_app()
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=13000)
+    # app.run(debug=True)
     # app.run(ssl_context=('cert.pem', 'key.pem'), host=HOST, port=PORT, debug=DEBUG)
 
 if __name__ == '__main__':

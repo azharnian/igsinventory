@@ -19,7 +19,7 @@ def all():
         data.append({
             'ID': room.id,
             'Room Name': room.room_name,
-            'Action': f'<div class="action-btn"><a href="{url_for('rooms.update', id=room.id)}">📝</a>'
+            'Action': f'<div class="action-btn"><a href="{url_for("rooms.update", id=room.id)}">📝</a>'
         })#<a style="margin-left: 15px;" href="{url_for('rooms.delete', id=room.id)}">❌</a></div>
     df = pd.DataFrame(data)
     html_table = df.to_html(classes='table table-striped table-bordered', escape=False, index=False)

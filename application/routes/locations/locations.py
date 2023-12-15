@@ -21,7 +21,7 @@ def all():
             'Name': location.name,
             'Long': location.longitude,
             'Lat': location.latitude,
-            'Action' : f'<div class="action-btn"><a href="{url_for('locations.update', id=location.id)}">📝</a>'
+            'Action' : f'<div class="action-btn"><a href="{url_for("locations.update", id=location.id)}">📝</a>'
         })#<a style="margin-left: 15px;" href="{url_for('locations.delete', id=location.id)}">❌</a></div>
     df = pd.DataFrame(data)
     html_table = df.to_html(classes='table table-striped table table-bordered', escape=False, index=False)
