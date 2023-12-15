@@ -1,4 +1,5 @@
 import os
+from sqlalchemy import desc
 
 from flask import render_template, redirect, url_for, flash, request, current_app
 from flask import Blueprint
@@ -18,19 +19,23 @@ items = Blueprint('items', __name__)
 @items.route('/items')
 @login_required
 def all():
-    items = Item.query.all()
+    page = request.args.get('page', 1, type=int)
+    per_page = 10
+
+    items = Item.query.order_by(Item.id.desc()).paginate(page=page, per_page=per_page, error_out=False)
     data = []
-    for item in items:
+
+    for item in items.items:
         data.append({
             'ID': item.id,
             'Name': item.name,
             'Action': f'<div class="action-btn"><a href="{url_for("items.update", id=item.id)}">📝</a></div>'
-        }) #<a style="margin-left: 15px;" href="{url_for("items.delete", id=item.id)}">❌</a>
+        })
+
     df = pd.DataFrame(data)
     html_table = df.to_html(classes='table table-striped table-bordered', escape=False, index=False)
 
-    return render_template('pages/items/view_all_items.html', title="All Items", html_table=html_table)
-
+    return render_template('pages/items/view_all_items.html', items=items, html_table=html_table)
 @items.route('/items/detail', methods=['GET'])
 @login_required
 def detail():
@@ -40,7 +45,9 @@ def detail():
         code = ''
     if code:
         item = get_item_by_code(code)
-        return render_template('pages/items/detail_item.html', title=str(item.name), item=item)
+        if item:
+            return render_template('pages/items/detail_item.html', title=str(item.name), item=item)
+        return render_template('pages/items/notfound_item.html', title="Item Not Found")
     return redirect(url_for('items.scan'))
 
 @items.route('/items/print_barcode', methods=['GET'])
@@ -73,6 +80,7 @@ def update(id=0):
 
 
     if form.validate_on_submit():
+        price = int(form.price.data.replace('.', ''))
         item_data = {
             'code': form.code.data,
             'name': form.name.data,
@@ -84,7 +92,7 @@ def update(id=0):
             'photo_item': form.photo_item.data,
             'is_electronic': form.is_electronic.data,
             'is_waterresistant': form.is_waterresistant.data,
-            'price': form.price.data,
+            'price': price,
             'make': form.make.data,
             'model': form.model.data,
             'store': form.store.data,
@@ -134,9 +142,11 @@ def add():
     form.item_type_id.choices = [(item_type.id, item_type.name_type) for item_type in item_types]
 
     if form.validate_on_submit():
+        price = int(form.price.data.replace('.', ''))
         item_data = form.data
         item_data['date_created'] = datetime.utcnow()
         item_data['created_by'] = current_user.id
+        item_data['price'] = price
         create_item(item_data)
         flash('Add item successful.', 'success')
         return redirect(url_for('items.all'))

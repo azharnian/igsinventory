@@ -9,6 +9,38 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='/style.css') }}">
   <style>
 
+        .dashboard {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: calc(100vh - 300px);
+        }
+
+        .button-container {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .dashboard-button {
+            display: inline-block;
+            padding: 15px 30px;
+            font-size: 16px;
+            text-align: center;
+            text-decoration: none;
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .dashboard-button:hover {
+            background-color: #2980b9;
+        }
+
       .bi {
       display: inline-block;
       width: 1rem;
@@ -18,6 +50,25 @@
       /*
       * Sidebar
       */
+
+      @keyframes blink {
+            0% {
+                border-color: red;
+            }
+            50% {
+                border-color: transparent;
+            }
+            100% {
+                border-color: red;
+            }
+        }
+
+        .box {
+            border: 2px solid red;
+            display: inline-block;
+            padding: 10px;
+            animation: blink 2s infinite;
+        }
 
       @media (min-width: 768px) {
       .sidebar .offcanvas-lg {

@@ -10,4 +10,20 @@
     <div class="text-center">
         {{ html_table | safe }}
     </div>  
+
+    <div class="pagination d-flex justify-content-center">
+        {% if items.has_prev %}
+          <a href="{{ url_for('items.all', page=items.prev_num) }}">&laquo; Prev</a>
+        {% else %}
+          
+        {% endif %}
+    
+        Page {{ items.page }} of {{ items.pages }}.
+    
+        {% if items.has_next %}
+          <a href="{{ url_for('items.all', page=items.next_num) }}">Next &raquo;</a>
+        {% else %}
+          
+        {% endif %}
+    </div>
 {% endblock content %}

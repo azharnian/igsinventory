@@ -1,8 +1,15 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-    <h1>Scan Barcode</h1>
-    <video id="video" playsinline autoplay width="100%"></video>
+    <div class="d-flex flex-column align-items-center">
+        <h1>Scan Barcode</h1>
+        <div class="box">
+            <video id="video" playsinline autoplay width="100%"></video>
+        </div>
+
+        <br />
+        <a href="{{ url_for('items.all') }}" class="btn btn-primary">View All Items</a>
+    </div>
     
     <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
     

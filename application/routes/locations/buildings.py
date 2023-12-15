@@ -19,8 +19,8 @@ def all():
         data.append({
             'Id': building.id,
             'Name': building.name,
-            'Action' : f'<div class="action-btn"><a href="{url_for('buildings.update', id=building.id)}">📝</a><a style="margin-left: 15px;" href="{url_for('buildings.delete', id=building.id)}">❌</a></div>'
-        })
+            'Action' : f'<div class="action-btn"><a href="{url_for('buildings.update', id=building.id)}">📝</a>'
+        }) #<a style="margin-left: 15px;" href="{url_for('buildings.delete', id=building.id)}">❌</a></div>
     df = pd.DataFrame(data)
     html_table = df.to_html(classes='table table-striped table table-bordered', escape=False, index=False)
 
@@ -34,6 +34,8 @@ def update(id=0):
     if not id or not building_data:
         return redirect(url_for('buildings.all'))
     form = UpdateBuildingForm()
+    locations = Location.query.all()
+    form.location_id.choices = [(location.id, location.name) for location in locations]
 
     if form.validate_on_submit():
         building_data = {
@@ -86,6 +88,8 @@ def delete(id=0):
 @login_required
 def add():
     form = AddBuildingForm()
+    locations = Location.query.all()
+    form.location_id.choices = [(location.id, location.name) for location in locations]
 
     if form.validate_on_submit():
         building_data = {

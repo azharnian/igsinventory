@@ -1,0 +1,9 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <section class="content" style="text-align: center;">
+        <h1>Sorry, {{ title }}</h1>
+        <br />
+        <a href="{{ url_for('items.scan') }}" class="btn btn-primary">Rescan QRCODE</a>
+    </section>
+{% endblock content %}

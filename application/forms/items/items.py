@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from flask_wtf import FlaskForm
-from wtforms import StringField, FloatField, BooleanField, DateTimeField, TextAreaField, SubmitField, SelectField
+from wtforms import StringField, FloatField, BooleanField, DateField, DateTimeField, TextAreaField, SubmitField, SelectField
 from wtforms.validators import DataRequired, Optional
 from flask_wtf.file import FileField, FileAllowed
 
@@ -15,7 +15,7 @@ class AddItemForm(FlaskForm):
     photo_item = FileField('Photo', validators=[FileAllowed(['jpg', 'png', 'jpeg'], 'Images only!')])
     is_electronic = BooleanField('Electronic', default=False)
     is_waterresistant = BooleanField('Water Resistant', default=False)
-    price = FloatField('Price', default=0)
+    price = StringField('Price', default=0)
     make = StringField('Merk')
     model = StringField('Model/Type')
     store = StringField('Store')
@@ -24,7 +24,7 @@ class AddItemForm(FlaskForm):
     machine_number = StringField('Machine Number')
     police_state_number = StringField('Police State Number')
     serial_number = StringField('Serial Number')
-    date_purchased = DateTimeField('Date Purchased', format='%Y-%m-%d', validators=[Optional()], default=datetime.utcnow())
+    date_purchased = DateField('Date Purchased', format='%Y-%m-%d', validators=[Optional()], default=datetime.utcnow())
     budget_type = SelectField('Budget Type', choices=["Inventaris BOS", "Inventaris Yayasan"], validators=[DataRequired()])
     origin_country = StringField('Origin Country')
     percent_depreciation_per_year = FloatField('Depr. per Year', default=0)

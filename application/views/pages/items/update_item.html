@@ -408,9 +408,17 @@
     
         </fieldset>
     
-        <div class="form-group mt-4 d-flex justify-content-center">
+        <div class="form-group my-4 d-flex justify-content-center">
             {{ form.submit(class="btn btn-primary") }}
         </div>
     </form>
 </section>
+
+<script>
+    document.getElementById("{{ form.price.id }}").addEventListener('input', function(){
+        let inputValue = this.value.replace(/\D/g, '');
+        let formattedValue = inputValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+        this.value = formattedValue;
+    })
+</script>
 {% endblock content %}

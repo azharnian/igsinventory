@@ -20,8 +20,8 @@ def all():
             'Id': floor.id,
             'Name': floor.name,
             'Building': floor.building_id,
-            'Action': f'<div class="action-btn"><a href="{url_for('floors.update', id=floor.id)}">📝</a><a style="margin-left: 15px;" href="{url_for('floors.delete', id=floor.id)}">❌</a></div>'
-        })
+            'Action': f'<div class="action-btn"><a href="{url_for('floors.update', id=floor.id)}">📝</a>'
+        })#<a style="margin-left: 15px;" href="{url_for('floors.delete', id=floor.id)}">❌</a></div>
     df = pd.DataFrame(data)
     html_table = df.to_html(classes='table table-striped table-bordered', escape=False, index=False)
 
